@@ -16,12 +16,7 @@ public class Admin {
     private String lastNam;
     private String email;
     private String password;
-    @ManyToOne
-    private SuperAdmin superAdmin;
-    @ManyToMany
-    private List<Festival> festivals;
-
-
+    private boolean superAdmin;
 
 
 }

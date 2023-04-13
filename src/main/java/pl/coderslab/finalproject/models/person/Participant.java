@@ -1,5 +1,6 @@
 package pl.coderslab.finalproject.models.person;
 
+import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.festivalEvents.FestivalEvent;
 
 import javax.persistence.*;
@@ -15,22 +16,23 @@ public class Participant {
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
-    private String city;
-    //leader/follower
-    private String role;
-    private String partnerName;
-    private String level;
-    private boolean tShirt;
-    private String tShirtSize;
+    @ManyToOne
+    private Festival festival;
 
-    private boolean alreadyPaid;
-    private BigDecimal amountToPay;
-
-    @ManyToMany
+    @ManyToMany(mappedBy = "participants")
     private List<FestivalEvent> festivalEvents;
 
 
+//    private String phone;
+//    private String city;
+//    //leader/follower
+//    private String role;
+//    private String partnerName;
+//    private String level;
+//    private boolean tShirt;
+//    private String tShirtSize;
+//    private boolean alreadyPaid;
+//    private BigDecimal amountToPay;
 
 
 }
