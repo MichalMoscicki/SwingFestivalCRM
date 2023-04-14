@@ -27,9 +27,9 @@ LISTA EVENTÓW:<br>
 ************<br>
 <br>
 UCZESTNICY:<br>
+<a href="/participant/all/${festival.id}">wszyscy uczestnicy</a><br>
 <a href="/participant">wyszukaj po emailu</a> (formularz z jednym polem)<br>
 <a href="/participant">wyszukaj po nazwisku</a> (formularz z jednym polem)<br>
-<a href="/participant/all">wszyscy uczestnicy</a><br>
 <a href="/participant/add">dodaj uczestnika</a><br>
 <a href="/participant/addFromFile">dodaj uczestnika z pliku(superadmin only)</a><br>
 ****************<br>

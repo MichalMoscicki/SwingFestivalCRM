@@ -31,7 +31,7 @@
         <td>${festival.startDate}</td>
         <td>${festival.endDate}</td>
         <td><a href="festival/details/${festival.id}">[szczegóły]</a></td>
-        <td><a href="festival/edit">[edytuj(superAdminOnly)]</a></td>
+        <td><a href="festival/edit/${festival.id}">[edytuj(superAdminOnly)]</a></td>
         <td><a href="festival/deleteConfirm/${festival.id}">[usuń(superAdminOnly)]</a></td>
     </tr>
     </c:forEach>

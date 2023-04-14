@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-${festival.id}____${festival.name}____${festival.startDate}____${festival.endDate}<br>
+${festival.name}____${festival.startDate}____${festival.endDate}<br>
 <br>
 Czy na pewno chcesz usunąć?<br>
 <a href="/festival/delete/${festival.id}">TAK</a>

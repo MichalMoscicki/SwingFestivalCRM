@@ -3,10 +3,7 @@ package pl.coderslab.finalproject.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 
@@ -25,55 +22,62 @@ public class festivalController {
     }
 
     @GetMapping("")
-    public String displayAllFestivals(Model model){
+    public String displayAllFestivals(Model model) {
         List<Festival> festivals = festivalRepository.findAll();
         model.addAttribute("festivals", festivals);
         return "festival/main";
     }
 
-
     @GetMapping("/add")
-    public String addFestival(Model model){
+    public String addFestival(Model model) {
         model.addAttribute("festival", new Festival());
         return "festival/add";
     }
 
     @PostMapping("/add")
-    public String addFestival(@Valid Festival festival, BindingResult res){
-        if(res.hasErrors()){
+    public String addFestival(@Valid Festival festival, BindingResult res) {
+        if (res.hasErrors()) {
             return "festival/add";
         }
         festivalRepository.save(festival);
         return "redirect:/festival";
     }
 
-
     @GetMapping("/details/{id}")
-    public String festivalDetails(@PathVariable Long id, Model model){
+    public String festivalDetails(@PathVariable Long id, Model model) {
         Optional<Festival> optionalFestival = festivalRepository.findById(id);
         optionalFestival.ifPresent(festival -> model.addAttribute("festival", festival));
 
         return "festival/details";
     }
 
-    @GetMapping("/edit")
-    public String editFestivalDetails(){
+    @GetMapping("/edit/{id}")
+    public String editFestivalDetails(Model model, @PathVariable Long id) {
+        Optional<Festival> optionalFestival = festivalRepository.findById(id);
+        optionalFestival.ifPresent(festival -> model.addAttribute("festival", festival));
         return "festival/edit";
     }
 
+    @PostMapping("/edit/{id}")
+    public String editFestivalDetails(@Valid Festival festival, BindingResult res) {
+        if (res.hasErrors()) {
+            return "festival/edit";
+        }
+        festivalRepository.save(festival);
+        return "redirect:/festival";
+    }
 
 
     @GetMapping("/deleteConfirm/{id}")
-    public String deleteFestivalConfirmation(@PathVariable Long id, Model model){
+    public String deleteFestivalConfirmation(@PathVariable Long id, Model model) {
         Optional<Festival> festivalOptional = festivalRepository.findById(id);
         festivalOptional.ifPresent(festival -> model.addAttribute("festival", festival));
-       //tu zrób jakiś sprytny else?
 
         return "/festival/delete";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteFestival(@PathVariable Long id){
+    public String deleteFestival(@PathVariable Long id) {
         festivalRepository.deleteById(id);
         return "redirect:/festival";
     }

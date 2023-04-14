@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.coderslab.finalproject.models.festivalEvents.FestivalEvent;
 import pl.coderslab.finalproject.models.person.Admin;
 import pl.coderslab.finalproject.models.person.Participant;
+import pl.coderslab.finalproject.validators.DateAfter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
