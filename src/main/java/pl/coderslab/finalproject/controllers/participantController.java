@@ -32,7 +32,6 @@ public class participantController {
         model.addAttribute("festival", festivalOptional.get());
         model.addAttribute("participants", participants);
 
-
         return "/participant/all";
     }
 
@@ -41,10 +40,22 @@ public class participantController {
         return "/participant/add";
     }
 
-    @GetMapping("/delete")
-    public String deleteParticipant(){
+
+
+    @GetMapping("/deleteConfirm/{festivalId}/{participantId}")
+    public String deleteParticipantConfirmation(@PathVariable Long festivalId, @PathVariable Long participantId, Model model){
+        Optional<Participant> participantOptional = participantRepository.findById(participantId);
+        model.addAttribute("participant", participantOptional.get());
+        model.addAttribute("festivalId", festivalId);
         return "/participant/delete";
     }
+
+    @GetMapping("/delete/{festivalId}/{participantId}")
+    public String deleteParticipant(@PathVariable Long participantId, @PathVariable Long festivalId){
+        participantRepository.deleteById(participantId);
+        return "redirect:/participant/all/" + festivalId;
+    }
+
 
     @GetMapping("/edit")
     public String editParticipant(){

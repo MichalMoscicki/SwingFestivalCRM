@@ -32,7 +32,7 @@ LISTA WSZYSTKICH UCZESTNIKÓW FESTIWALU:<br>
         <td>${participant.lastName}</td>
         <td><a href="participant/all">[szczegóły]</a></td>
         <td><a href="participant/all">[edytuj]</a></td>
-        <td><a href="participant/all">[usuń]</a></td>
+        <td><a href="/participant/deleteConfirm/${festival.id}/${participant.id}">[usuń]</a></td>
     </tr>
 </c:forEach>
 </table>
