@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Title</title>
@@ -14,8 +15,6 @@
 <body>
 Nazwa festiwalu:<br>
 ${festival.name}<br>
-<br>
-Details<br>
 <br>
 LISTA EVENTÓW:<br>
 1. impreza czwartkowa - <a href="/event/details">szczegóły</a> - <a href="/event/edit">[edytuj(superadminOnly)]</a> - <a
@@ -28,8 +27,15 @@ LISTA EVENTÓW:<br>
 <br>
 UCZESTNICY:<br>
 <a href="/participant/all/${festival.id}">wszyscy uczestnicy</a><br>
-<a href="/participant">wyszukaj po emailu</a> (formularz z jednym polem)<br>
-<a href="/participant">wyszukaj po nazwisku</a> (formularz z jednym polem)<br>
+Znajdź uczestnika:  TU TRZEBA JAKOŚ SPRYTNIE PRZESŁAć TEN FORMULARZ
+<form:form method="post" action="/participant/${festival.id}/findByEmail">
+    <input name="email" placeholder="email"/>
+    <input type="submit" value="Wyszukaj">
+</form:form>
+<form:form method="post" action="/participant/${festival.id}/findByLastName">
+    <input type="text" name="lastName" placeholder="Nazwisko">
+    <input type="submit" value="Wyszukaj">
+</form:form>
 <a href="/participant/add">dodaj uczestnika</a><br>
 <a href="/participant/addFromFile">dodaj uczestnika z pliku(superadmin only)</a><br>
 ****************<br>
@@ -43,7 +49,7 @@ dodaj admina <br>
 *******************<br>
 WYŚLIJ MAILING (superAdminOnly)<br>
 [docelowo ta funkcjonalność ma być podpięta pod googleDocs - maile będe wysyłać się automatycznie po rejestracji i dzień
-przed festiwalem]
+przed festiwalem]<br>
 <a href="/festival">POWRÓT DO LISTY FESTIWALI</a>
 </body>
 </html>

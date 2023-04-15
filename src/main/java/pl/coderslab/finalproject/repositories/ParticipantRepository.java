@@ -10,6 +10,10 @@ import java.util.List;
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
     List<Participant> findAllByFestival(Festival festival);
+
+    Participant findByEmail(String email);
+
+    List<Participant> findAllByLastName(String lastName);
 }
 
 
