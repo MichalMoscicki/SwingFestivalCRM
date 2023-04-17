@@ -31,7 +31,7 @@ LISTA WSZYSTKICH UCZESTNIKÓW FESTIWALU:<br>
         <td>${participant.firstName}</td>
         <td>${participant.lastName}</td>
         <td><a href="/participant/${festival.id}/details/${participant.id}">[szczegóły]</a></td>
-        <td><a href="participant/all">[edytuj]</a></td>
+        <td><a href="/participant/${festival.id}/edit/${participant.id}">[edytuj]</a></td>
         <td><a href="/participant/deleteConfirm/${festival.id}/${participant.id}">[usuń]</a></td>
     </tr>
 </c:forEach>

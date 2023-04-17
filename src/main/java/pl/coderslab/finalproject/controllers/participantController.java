@@ -93,12 +93,26 @@ public class participantController {
         return "redirect:/participant/all/" + festivalId;
     }
 
-    //-----------//////
-    @GetMapping("/edit")
-    public String editParticipant() {
-        return "/participant/add";
+    @GetMapping("{festivalId}/edit/{participantId}")
+    public String displayEditParticipant(@PathVariable Long festivalId,
+                                         @PathVariable Long participantId, Model model) {
+        Optional<Participant> participant = participantRepository.findById(participantId);
+        model.addAttribute("participant", participant.get());
+        model.addAttribute("festivalId", festivalId);
+        return "/participant/edit";
     }
-    //-----------//////
+
+    /*
+    @PostMapping("/edit/{id}")
+    public String editFestivalDetails(@Valid Festival festival, BindingResult res) {
+        if (res.hasErrors()) {
+            return "festival/edit";
+        }
+        festivalRepository.save(festival);
+        return "redirect:/festival";
+    }
+
+     */
 
     @GetMapping("{festivalId}/details/{participantId}")
     public String displayParticipant(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
