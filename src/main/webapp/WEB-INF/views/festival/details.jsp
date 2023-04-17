@@ -27,7 +27,7 @@ LISTA EVENTÓW:<br>
 <br>
 UCZESTNICY:<br>
 <a href="/participant/all/${festival.id}">wszyscy uczestnicy</a><br>
-Znajdź uczestnika:  TU TRZEBA JAKOŚ SPRYTNIE PRZESŁAć TEN FORMULARZ
+Znajdź uczestnika:<br>
 <form:form method="post" action="/participant/${festival.id}/findByEmail">
     <input name="email" placeholder="email"/>
     <input type="submit" value="Wyszukaj">

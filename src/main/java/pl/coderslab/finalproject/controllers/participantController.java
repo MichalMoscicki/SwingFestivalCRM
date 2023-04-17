@@ -33,10 +33,12 @@ public class participantController {
         return "/participant/all";
     }
 
+    //-----------//////
     @GetMapping("/add")
     public String addParticipant() {
         return "/participant/add";
     }
+    //-----------//////
 
     @GetMapping("/deleteConfirm/{festivalId}/{participantId}")
     public String deleteParticipantConfirmation(@PathVariable Long festivalId, @PathVariable Long participantId, Model model) {
@@ -52,10 +54,12 @@ public class participantController {
         return "redirect:/participant/all/" + festivalId;
     }
 
+    //-----------//////
     @GetMapping("/edit")
     public String editParticipant() {
         return "/participant/add";
     }
+    //-----------//////
 
     @GetMapping("{festivalId}/details/{participantId}")
     public String displayParticipant(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
@@ -65,11 +69,12 @@ public class participantController {
         return "/participant/details";
     }
 
+    //-----------//////
     @GetMapping("/addFromFile")
     public String addParticipantsFromFile() {
         return "/participant/addFromFile";
     }
-
+//-----------//////
 
     @PostMapping("/{festivalId}/findByEmail")
     public String findParticipantByEmail(@RequestParam("email") String email, @PathVariable Long festivalId) {
@@ -96,10 +101,39 @@ public class participantController {
     }
 
     @GetMapping("{festivalId}/notFound/{lookedPhrase}")
-    public String participantNotFound(@PathVariable Long festivalId, Model model, @PathVariable String lookedPhrase) {
+    public String participantNotFound(@PathVariable Long festivalId,
+                                      @PathVariable String lookedPhrase, Model model) {
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("lookedPhrase", lookedPhrase);
         return "participant/notFound";
     }
+
+    @GetMapping("{festivalId}/{participantId}/confirmPayment")
+    public String confirmPayment(@PathVariable Long festivalId,
+                                 @PathVariable Long participantId){
+        Optional<Participant> participantOptional = participantRepository.findById(participantId);
+        participantOptional.get().setAlreadyPaid(true);
+        participantRepository.save(participantOptional.get());
+        return (String.format("redirect:/participant/%s/details/%s", festivalId, participantId));
+    }
+
+    @GetMapping("{festivalId}/{participantId}/giveBracelet")
+    public String giveBracelet(@PathVariable Long festivalId,
+                                 @PathVariable Long participantId){
+        Optional<Participant> participantOptional = participantRepository.findById(participantId);
+        participantOptional.get().setBraceletGiven(true);
+        participantRepository.save(participantOptional.get());
+        return (String.format("redirect:/participant/%s/details/%s", festivalId, participantId));
+    }
+
+    @GetMapping("{festivalId}/{participantId}/giveMerch")
+    public String giveMerch(@PathVariable Long festivalId,
+                               @PathVariable Long participantId){
+        Optional<Participant> participantOptional = participantRepository.findById(participantId);
+        participantOptional.get().setGiftsGiven(true);
+        participantRepository.save(participantOptional.get());
+        return (String.format("redirect:/participant/%s/details/%s", festivalId, participantId));
+    }
+
 
 }
