@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class FestivalEvent {
 
     @Id
@@ -20,22 +21,11 @@ public class FestivalEvent {
     private LocalDateTime start;
     private LocalDateTime end;
     private BigDecimal price;
-
-
-
-
-
-
-
+    private String address;
+    private String description;
     @ManyToOne
     private Festival festival;
     @ManyToMany
     private List<Participant> participants;
-
-    //    private Date startDate;
-//    private Date endDate;
-// data powinna zawierać również godzinę!
-
-
 
 }
