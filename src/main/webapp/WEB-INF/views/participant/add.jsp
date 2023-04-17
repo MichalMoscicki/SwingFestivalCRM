@@ -22,12 +22,12 @@ Dane kontaktowe:<br>
     <form:input path="phone"/>Telefon<br>
     <form:input path="city"/>Miasto<br>
     <form:input path="comments"/>Uwagi<br>
-    Wybór eventów
+    Wybór eventów<br>
+    <br>
 
     Wybór prezentów<br>
-    checkbox piękny i będize git<br>
     <c:forEach items="${gifts}" var="gift">
-        ${gift}<br>
+        <form:checkbox path="gifts" value="${gift}"/>${gift.name} : ${gift.description} : ${gift.price} zł<br>
     </c:forEach>
     <input type="submit" value="Dodaj">
 </form:form>

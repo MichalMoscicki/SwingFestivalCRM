@@ -12,7 +12,9 @@ import pl.coderslab.finalproject.repositories.GiftRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,16 +56,20 @@ public class participantController {
     @PostMapping("{festivalId}/add")
     public String addParticipant(@Valid Participant participant, BindingResult result,
                                  @PathVariable Long festivalId) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return String.format("redirect:/participant/%s/add", festivalId);
         }
         participant.setRegistrationDate(LocalDateTime.now());
-        Optional<Festival> festivalOptional= festivalRepository.findById(festivalId);
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
         participant.setFestival(festivalOptional.get());
+        BigDecimal price = new BigDecimal(0.00);
+        for (Gift gift : participant.getGifts()){
+            price = price.add(gift.getPrice());
+        }
+        participant.setAmountToPay(price);
         participantRepository.save(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
-
 
 
     //-----------//////
@@ -113,7 +119,6 @@ public class participantController {
     }
 
     @PostMapping("/{festivalId}/findByLastName")
-
     public String findParticipantsByLastName(@RequestParam("lastName") String lastName, @PathVariable Long festivalId, Model model) {
         List<Participant> participants = participantRepository.findAllByLastName(lastName);
         model.addAttribute("participants", participants);
@@ -136,7 +141,7 @@ public class participantController {
 
     @GetMapping("{festivalId}/{participantId}/confirmPayment")
     public String confirmPayment(@PathVariable Long festivalId,
-                                 @PathVariable Long participantId){
+                                 @PathVariable Long participantId) {
         Optional<Participant> participantOptional = participantRepository.findById(participantId);
         participantOptional.get().setAlreadyPaid(true);
         participantRepository.save(participantOptional.get());
@@ -145,7 +150,7 @@ public class participantController {
 
     @GetMapping("{festivalId}/{participantId}/giveBracelet")
     public String giveBracelet(@PathVariable Long festivalId,
-                                 @PathVariable Long participantId){
+                               @PathVariable Long participantId) {
         Optional<Participant> participantOptional = participantRepository.findById(participantId);
         participantOptional.get().setBraceletGiven(true);
         participantRepository.save(participantOptional.get());
@@ -154,7 +159,7 @@ public class participantController {
 
     @GetMapping("{festivalId}/{participantId}/giveMerch")
     public String giveMerch(@PathVariable Long festivalId,
-                               @PathVariable Long participantId){
+                            @PathVariable Long participantId) {
         Optional<Participant> participantOptional = participantRepository.findById(participantId);
         participantOptional.get().setGiftsGiven(true);
         participantRepository.save(participantOptional.get());

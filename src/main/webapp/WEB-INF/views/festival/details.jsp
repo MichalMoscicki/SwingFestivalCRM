@@ -39,14 +39,6 @@ Znajdź uczestnika:<br>
 <a href="/participant/${festival.id}/add">dodaj uczestnika</a><br>
 <a href="/participant/addFromFile">dodaj uczestnika z pliku(superadmin only)</a><br>
 ****************<br>
-<br>
-LISTA ADMINÓW (superadmin only)<br>
-1. admin jeden <br>
-2. admin dwa <br>
-<br>
-dodaj admina <br>
-<br>
-*******************<br>
 WYŚLIJ MAILING (superAdminOnly)<br>
 [docelowo ta funkcjonalność ma być podpięta pod googleDocs - maile będe wysyłać się automatycznie po rejestracji i dzień
 przed festiwalem]<br>

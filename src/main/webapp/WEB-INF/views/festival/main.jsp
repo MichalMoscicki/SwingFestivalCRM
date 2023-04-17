@@ -39,5 +39,8 @@
 <br>
 ************<br>
 <a href="festival/add">DODAJ FESTIVAL (superAdminOnly)</a><br>
+<br>
+gift crud<br>
+admin crud<br>
 </body>
 </html>
