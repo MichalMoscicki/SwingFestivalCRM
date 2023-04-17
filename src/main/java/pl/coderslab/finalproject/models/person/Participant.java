@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.festivalEvents.FestivalEvent;
 import pl.coderslab.finalproject.models.gift.Gift;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

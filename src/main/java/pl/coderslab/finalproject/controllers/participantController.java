@@ -2,12 +2,17 @@ package pl.coderslab.finalproject.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
+import pl.coderslab.finalproject.models.gift.Gift;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
+import pl.coderslab.finalproject.repositories.GiftRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +22,12 @@ public class participantController {
 
     ParticipantRepository participantRepository;
     FestivalRepository festivalRepository;
+    GiftRepository giftRepository;
 
-    public participantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository) {
+    public participantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository, GiftRepository giftRepository) {
         this.participantRepository = participantRepository;
         this.festivalRepository = festivalRepository;
+        this.giftRepository = giftRepository;
     }
 
     @GetMapping("/all/{festivalId}")
@@ -33,12 +40,38 @@ public class participantController {
         return "/participant/all";
     }
 
-    //-----------//////
-    @GetMapping("/add")
-    public String addParticipant() {
+
+    @GetMapping("{festivalId}/add")
+    public String displayForm(@PathVariable Long festivalId, Model model) {
+        List<Gift> gifts = giftRepository.findAll();
+        model.addAttribute("gifts", gifts);
+        model.addAttribute("festivalId", festivalId);
+        model.addAttribute("participant", new Participant());
         return "/participant/add";
     }
+
+
+    @PostMapping("{festivalId}/add")
+    public String addParticipant(@Valid Participant participant, BindingResult result,
+                                 @PathVariable Long festivalId) {
+        if(result.hasErrors()){
+            return String.format("redirect:/participant/%s/add", festivalId);
+        }
+        participant.setRegistrationDate(LocalDateTime.now());
+        Optional<Festival> festivalOptional= festivalRepository.findById(festivalId);
+        participant.setFestival(festivalOptional.get());
+        participantRepository.save(participant);
+        return String.format("redirect:/festival/details/%s", festivalId);
+    }
+
+
+
     //-----------//////
+    @GetMapping("/addFromFile")
+    public String addParticipantsFromFile() {
+        return "/participant/addFromFile";
+    }
+//-----------//////
 
     @GetMapping("/deleteConfirm/{festivalId}/{participantId}")
     public String deleteParticipantConfirmation(@PathVariable Long festivalId, @PathVariable Long participantId, Model model) {
@@ -68,13 +101,6 @@ public class participantController {
         model.addAttribute("festivalId", festivalId);
         return "/participant/details";
     }
-
-    //-----------//////
-    @GetMapping("/addFromFile")
-    public String addParticipantsFromFile() {
-        return "/participant/addFromFile";
-    }
-//-----------//////
 
     @PostMapping("/{festivalId}/findByEmail")
     public String findParticipantByEmail(@RequestParam("email") String email, @PathVariable Long festivalId) {

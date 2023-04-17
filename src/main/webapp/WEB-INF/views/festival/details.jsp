@@ -36,7 +36,7 @@ Znajdź uczestnika:<br>
     <input type="text" name="lastName" placeholder="Nazwisko">
     <input type="submit" value="Wyszukaj">
 </form:form>
-<a href="/participant/add">dodaj uczestnika</a><br>
+<a href="/participant/${festival.id}/add">dodaj uczestnika</a><br>
 <a href="/participant/addFromFile">dodaj uczestnika z pliku(superadmin only)</a><br>
 ****************<br>
 <br>
