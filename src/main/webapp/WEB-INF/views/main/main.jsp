@@ -12,7 +12,8 @@
     <title>Title</title>
 </head>
 <body>
-
+<Festiwale></Festiwale>:<br>
+<br>
 <table>
     <tr>
         <th></th>
@@ -39,8 +40,36 @@
 <br>
 ************<br>
 <a href="festival/add">DODAJ FESTIVAL (superAdminOnly)</a><br>
+*************<br>
 <br>
-gift crud<br>
+Merch:<br>
+<br>
+<table>
+    <tr>
+        <th></th>
+        <th>Nazwa</th>
+        <th>Opis</th>
+        <th>Cena</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <c:set var="count" value="0" scope="page" />
+    <c:forEach items="${gifts}" var="gift">
+        <c:set var="count" value="${count + 1}" scope="page"/>
+        <tr>
+            <td>${count}.</td>
+            <td>${gift.name}</td>
+            <td>${gift.description}</td>
+            <td>${gift.price}</td>
+            <td><a href="gift/edit/${gift.id}">[edytuj(superAdminOnly)]</a></td>
+            <td><a href="gift/deleteConfirm/${gift.id}">[usuń(superAdminOnly)]</a></td>
+        </tr>
+    </c:forEach>
+</table>
+************<br>
+<a href="gift/add">DODAJ MERCH (superAdminOnly)</a><br>
+*************<br>
+
 admin crud<br>
 </body>
 </html>

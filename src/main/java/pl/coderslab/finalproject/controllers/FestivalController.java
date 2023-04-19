@@ -13,19 +13,12 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/festival")
-public class festivalController {
+public class FestivalController {
 
     FestivalRepository festivalRepository;
 
-    public festivalController(FestivalRepository festivalRepository) {
+    public FestivalController(FestivalRepository festivalRepository) {
         this.festivalRepository = festivalRepository;
-    }
-
-    @GetMapping("")
-    public String displayAllFestivals(Model model) {
-        List<Festival> festivals = festivalRepository.findAll();
-        model.addAttribute("festivals", festivals);
-        return "festival/main";
     }
 
     @GetMapping("/add")

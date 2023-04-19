@@ -25,6 +25,6 @@ EDYCJA<br>
     <form:errors path="endDate" cssClass="error"  element="div" />
 </form:form>
 <br>
-<a href="/festival">POWRÓT</a><br>
+<a href="/main">POWRÓT</a><br>
 </body>
 </html>

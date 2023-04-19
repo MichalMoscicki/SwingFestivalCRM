@@ -22,7 +22,9 @@ LISTA EVENTÓW:<br>
 2. impreza piątkowa - <a href="/event/details">szczegóły</a> - <a href="/event/edit">[edytuj(superadminOnly)]</a> - <a
         href="/event/delete">[usuń(superadminOnly)]</a><br>
 <br>
-<a href="/event/add">[DODAJ EVENT(superadminOnly)]</a><br>
+<a href="/event/${festival.id}/addParty">[DODAJ IMPREZĘ(superadminOnly)]</a><br>
+<a href="/event/${festival.id}/addWorkshop">[DODAJ WARSZTAT(superadminOnly)]</a><br>
+<a href="/event/${festival.id}/addSpecialEvent">[DODAJ WYDARZENIE SPECJALNE(superadminOnly)]</a><br>
 ************<br>
 <br>
 UCZESTNICY:<br>
@@ -42,6 +44,6 @@ Znajdź uczestnika:<br>
 WYŚLIJ MAILING (superAdminOnly)<br>
 [docelowo ta funkcjonalność ma być podpięta pod googleDocs - maile będe wysyłać się automatycznie po rejestracji i dzień
 przed festiwalem]<br>
-<a href="/festival">POWRÓT DO LISTY FESTIWALI</a>
+<a href="/main">POWRÓT DO LISTY FESTIWALI</a>
 </body>
 </html>

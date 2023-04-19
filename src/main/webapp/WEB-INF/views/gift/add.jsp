@@ -12,15 +12,11 @@
     <title>Title</title>
 </head>
 <body>
-
-<form:form method="post" modelAttribute="festival">
+<form:form method="post" modelAttribute="gift">
     <form:input path="name"/>Nazwa<br>
-    <form:input type="date" path="startDate"/>Data rozpoczęcia<br>
-    <form:input type="date" path="endDate"/>Data zakończenia<br>
+    <form:input path="description"/>Opisa<br>
+    <form:input type="numeric" path="price"/>Cena<br>
     <input type="submit"><br>
-    <form:errors path="name" cssClass="error"  element="div" />
-    <form:errors path="startDate" cssClass="error"  element="div" />
-    <form:errors path="endDate" cssClass="error"  element="div" />
 </form:form>
 <br>
 <a href="/main">POWRÓT</a><br>

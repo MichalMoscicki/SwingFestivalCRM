@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: michalmoscicki
-  Date: 12/04/2023
-  Time: 12:46
+  Date: 18/04/2023
+  Time: 09:52
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,10 +12,10 @@
     <title>Title</title>
 </head>
 <body>
-${festival.name}____${festival.startDate}____${festival.endDate}<br>
+${gift.name}____${gift.description}____${gift.price}<br>
 <br>
 Czy na pewno chcesz usunąć?<br>
-<a href="/festival/delete/${festival.id}">TAK</a>
+<a href="/gift/delete/${gift.id}">TAK</a>
 <a href="/main">POWRÓT</a>
 </body>
 </html>

@@ -14,19 +14,18 @@ import pl.coderslab.finalproject.repositories.ParticipantRepository;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/participant")
-public class participantController {
+public class ParticipantController {
 
     ParticipantRepository participantRepository;
     FestivalRepository festivalRepository;
     GiftRepository giftRepository;
 
-    public participantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository, GiftRepository giftRepository) {
+    public ParticipantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository, GiftRepository giftRepository) {
         this.participantRepository = participantRepository;
         this.festivalRepository = festivalRepository;
         this.giftRepository = giftRepository;
@@ -42,7 +41,6 @@ public class participantController {
         return "/participant/all";
     }
 
-
     @GetMapping("{festivalId}/add")
     public String displayForm(@PathVariable Long festivalId, Model model) {
         List<Gift> gifts = giftRepository.findAll();
@@ -51,7 +49,6 @@ public class participantController {
         model.addAttribute("participant", new Participant());
         return "/participant/add";
     }
-
 
     @PostMapping("{festivalId}/add")
     public String addParticipant(@Valid Participant participant, BindingResult result,
@@ -71,13 +68,11 @@ public class participantController {
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 
-
-    //-----------//////
     @GetMapping("/addFromFile")
     public String addParticipantsFromFile() {
         return "/participant/addFromFile";
     }
-//-----------//////
+
 
     @GetMapping("/deleteConfirm/{festivalId}/{participantId}")
     public String deleteParticipantConfirmation(@PathVariable Long festivalId, @PathVariable Long participantId, Model model) {
