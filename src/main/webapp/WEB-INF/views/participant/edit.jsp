@@ -33,8 +33,5 @@ FORMULARZ EDYCJI UCZESTNIKA<br>
     <input type="submit" value="Aktualizuj">
 </form:form>
 <a href="/festival/details/${festivalId}">POWRÓT</a><br>
-
-<a href="/festival/details">DODAJ</a><br>
-<a href="/festival/details">POWRÓT</a><br>
 </body>
 </html>

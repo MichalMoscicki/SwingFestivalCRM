@@ -97,18 +97,6 @@ public class ParticipantController {
         return "/participant/edit";
     }
 
-    /*
-    @PostMapping("/edit/{id}")
-    public String editFestivalDetails(@Valid Festival festival, BindingResult res) {
-        if (res.hasErrors()) {
-            return "festival/edit";
-        }
-        festivalRepository.save(festival);
-        return "redirect:/festival";
-    }
-
-     */
-
     @GetMapping("{festivalId}/details/{participantId}")
     public String displayParticipant(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
         Optional<Participant> participantOptional = participantRepository.findById(participantId);

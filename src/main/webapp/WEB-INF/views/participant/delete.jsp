@@ -16,7 +16,7 @@ ${participant.email}____${participant.firstName}____${participant.lastName}<br>
 <br>
 Czy na pewno chcesz usunąć uczestnika?<br>
 <a href="/participant/delete/${festivalId}/${participant.id}">TAK</a><br>
-<a href="/participant/all/${festivalId}">POWRÓT</a><br>
+<a href="/festival/details/${festivalId}">POWRÓT</a><br>
 </body>
 </html>
 

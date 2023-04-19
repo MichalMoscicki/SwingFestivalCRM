@@ -12,10 +12,9 @@
     <title>Title</title>
 </head>
 <body>
-
-<form:form method="post" modelAttribute="workshop">
+Dodaj warsztat:<br>
+<form:form method="post" modelAttribute="event">
     <form:input path="name"/>Nazwa<br>
-    <form:checkbox path="pairRequired"/>Czy wymagany partner?<br>
     <input type="submit"><br>
 
 </form:form>

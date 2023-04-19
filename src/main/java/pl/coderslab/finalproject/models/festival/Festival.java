@@ -5,19 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import pl.coderslab.finalproject.models.festivalEvents.FestivalEvent;
-import pl.coderslab.finalproject.models.person.Admin;
-import pl.coderslab.finalproject.models.person.Participant;
-import pl.coderslab.finalproject.validators.DateAfter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.List;
-
 
 
 @Entity

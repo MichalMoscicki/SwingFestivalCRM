@@ -13,11 +13,9 @@
 </head>
 <body>
 Dodaj imprezę:<br>
-<form:form method="post" modelAttribute="party">
+<form:form method="post" modelAttribute="event">
     <form:input path="name"/>Nazwa<br>
-    <form:input path="bandName"/>Nazwa zespołu<br>
     <input type="submit"><br>
-    <form:errors path="bandName" cssClass="error"  element="div" />
 
 </form:form>
 <br>

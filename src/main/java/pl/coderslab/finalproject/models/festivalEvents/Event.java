@@ -9,30 +9,30 @@ import pl.coderslab.finalproject.models.person.Participant;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FestivalEvent {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-//    private String type;
-//    private LocalDateTime start;
-//    private LocalDateTime end;
-//    private BigDecimal price;
-//    private String address;
-//    private String description;
+    private String type;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private BigDecimal price;
+    private String address;
+    private String description;
     @ManyToOne
     private Festival festival;
     @ManyToMany
     private List<Participant> participants;
+
+
 
 }

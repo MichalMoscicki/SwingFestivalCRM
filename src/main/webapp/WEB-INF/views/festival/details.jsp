@@ -1,4 +1,4 @@
-<%--
+<%@ page import="pl.coderslab.finalproject.models.festivalEvents.Event" %><%--
   Created by IntelliJ IDEA.
   User: michalmoscicki
   Date: 12/04/2023
@@ -13,18 +13,36 @@
     <title>Title</title>
 </head>
 <body>
-Nazwa festiwalu:<br>
 ${festival.name}<br>
 <br>
 LISTA EVENTÓW:<br>
-1. impreza czwartkowa - <a href="/event/details">szczegóły</a> - <a href="/event/edit">[edytuj(superadminOnly)]</a> - <a
-        href="/event/delete">[usuń(superadminOnly)]</a><br>
-2. impreza piątkowa - <a href="/event/details">szczegóły</a> - <a href="/event/edit">[edytuj(superadminOnly)]</a> - <a
-        href="/event/delete">[usuń(superadminOnly)]</a><br>
+<table>
+    <tr>
+        <th></th>
+        <th>Nazwa</th>
+        <th>Początek</th>
+        <th>Koniec</th>
+        <th>Typ</th>
+        <th></th>
+    </tr>
+    <c:set var="count" value="0" scope="page" />
+    <c:forEach items="${events}" var="event">
+        <c:set var="count" value="${count + 1}" scope="page"/>
+        <tr>
+            <td>${count}.</td>
+            <td>${event.name}</td>
+            <td></td>
+            <td></td>
+            <td>
+                TYP - JAK GO WYCIĄGNĄć?</td>
+            <td><a href="/event/${festival.id}/details/${event.id}">[szczegóły]</a></td>
+            <td><a href="/event/${festival.id}/edit/${event.id}">[edytuj(superAdminOnly)]</a></td>
+            <td><a href="/event/${festival.id}/deleteConfirm/${event.id}">[usuń(superAdminOnly)]</a></td>
+        </tr>
+    </c:forEach>
+</table>
 <br>
-<a href="/event/${festival.id}/addParty">[DODAJ IMPREZĘ(superadminOnly)]</a><br>
-<a href="/event/${festival.id}/addWorkshop">[DODAJ WARSZTAT(superadminOnly)]</a><br>
-<a href="/event/${festival.id}/addSpecialEvent">[DODAJ WYDARZENIE SPECJALNE(superadminOnly)]</a><br>
+<a href="/event/${festival.id}/eventTypeChoice">[DODAJ WYDARZENIE(superadminOnly)]</a><br>
 ************<br>
 <br>
 UCZESTNICY:<br>

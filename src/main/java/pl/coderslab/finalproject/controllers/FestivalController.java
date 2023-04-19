@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
+import pl.coderslab.finalproject.models.festivalEvents.Event;
+import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 
 import javax.validation.Valid;
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class FestivalController {
 
     FestivalRepository festivalRepository;
+    EventRepository eventRepository;
 
-    public FestivalController(FestivalRepository festivalRepository) {
+    public FestivalController(FestivalRepository festivalRepository, EventRepository eventRepository) {
         this.festivalRepository = festivalRepository;
+        this.eventRepository = eventRepository;
     }
 
     @GetMapping("/add")
@@ -39,8 +43,9 @@ public class FestivalController {
     @GetMapping("/details/{id}")
     public String festivalDetails(@PathVariable Long id, Model model) {
         Optional<Festival> optionalFestival = festivalRepository.findById(id);
+        List<Event> events = eventRepository.findAll();
         optionalFestival.ifPresent(festival -> model.addAttribute("festival", festival));
-
+        model.addAttribute("events", events);
         return "festival/details";
     }
 

@@ -31,14 +31,13 @@ Szukane nazwisko: ${lastName}<br>
             <td>${participant.email}</td>
             <td>${participant.firstName}</td>
             <td>${participant.lastName}</td>
-            <td><a href="participant/all">[szczegóły]</a></td>
-            <td><a href="participant/all">[edytuj]</a></td>
-            <td><a href="/participant/deleteConfirm/${festival.id}/${participant.id}">[usuń]</a></td>
+            <td><a href="/participant/${festivalId}/details/${participant.id}">[szczegóły]</a></td>
+            <td><a href="/participant/${festivalId}/edit/${participant.id}">[edytuj]</a></td>
+            <td><a href="/participant/deleteConfirm/${festivalId}/${participant.id}">[usuń]</a></td>
         </tr>
     </c:forEach>
 </table>
 <br>
 <a href="/festival/details/${festivalId}">Powrót</a><br>
-Uwaga - jak klikniesz tutaj w szczegóły, to możliwość powrotu w dwa miejsca - do listy wyszukanych i do festivaldetails.
 </body>
 </html>
