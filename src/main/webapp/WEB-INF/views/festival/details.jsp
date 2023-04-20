@@ -19,10 +19,10 @@ LISTA EVENTÓW:<br>
 <table>
     <tr>
         <th></th>
+        <th>Typ</th>
         <th>Nazwa</th>
         <th>Początek</th>
         <th>Koniec</th>
-        <th>Typ</th>
         <th></th>
     </tr>
     <c:set var="count" value="0" scope="page" />
@@ -30,11 +30,10 @@ LISTA EVENTÓW:<br>
         <c:set var="count" value="${count + 1}" scope="page"/>
         <tr>
             <td>${count}.</td>
+            <td>${event.type}</td>
             <td>${event.name}</td>
-            <td></td>
-            <td></td>
-            <td>
-                TYP - JAK GO WYCIĄGNĄć?</td>
+            <td>${event.start}</td>
+            <td>${event.end}</td>
             <td><a href="/event/${festival.id}/details/${event.id}">[szczegóły]</a></td>
             <td><a href="/event/${festival.id}/edit/${event.id}">[edytuj(superAdminOnly)]</a></td>
             <td><a href="/event/${festival.id}/deleteConfirm/${event.id}">[usuń(superAdminOnly)]</a></td>

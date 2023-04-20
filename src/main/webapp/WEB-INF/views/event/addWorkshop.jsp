@@ -14,12 +14,36 @@
 <body>
 Dodaj warsztat:<br>
 <form:form method="post" modelAttribute="event">
-    <form:input path="name"/>Nazwa<br>
+    <form:input path="type" value="workshop" hidden="true"/><br>
+    Nazwa<br>
+    <form:input path="name"/><br>
+    Data rozpoczęcia:<br>
+    <form:input path="start" type="datetime-local" pattern="yyyy-MM-dd'T'HH:mm"/><br>
+    Data zakończenia:<br>
+    <form:input path="end" type="datetime-local" pattern="yyyy-MM-dd'T'HH:mm"/><br>
+    Cena:<br>
+    <form:input type="number" step="0.01" path="price"/><br>
+    Adres:<br>
+    <form:input path="address"/><br>
+    <form:textarea rows="4" cols="50" path="description"/>Opis<br>
+    Czas trwania:<br>
+    <form:input path="duration"/><br>
+    Prowadzący:<br>
+    <form:input path="teachers"/><br>
+    Poziom:<br>
+    <form:input path="level"/><br>
+    Styl:<br>
+    <form:input path="style"/><br>
+    Solo, czy w parach:<br>
+    <form:radiobutton path="soloOrInPairs" value="Solo"/>Solo<br>
+    <form:radiobutton path="alcohol" value="barCashAndCard"/>W parach<br>
     <input type="submit"><br>
+    <form:errors path="start" cssClass="error"  element="div" />
+    <form:errors path="end" cssClass="error"  element="div" />
+    <br>
 
 </form:form>
 <br>
 <a href="/festival/details/${festivalId}">POWRÓT</a><br>
-
 </body>
 </html>

@@ -37,7 +37,7 @@ public class FestivalController {
             return "festival/add";
         }
         festivalRepository.save(festival);
-        return "redirect:/festival";
+        return "redirect:/main";
     }
 
     @GetMapping("/details/{id}")
@@ -62,7 +62,7 @@ public class FestivalController {
             return "festival/edit";
         }
         festivalRepository.save(festival);
-        return "redirect:/festival";
+        return "redirect:/main";
     }
 
 
@@ -77,7 +77,7 @@ public class FestivalController {
     @GetMapping("/delete/{id}")
     public String deleteFestival(@PathVariable Long id) {
         festivalRepository.deleteById(id);
-        return "redirect:/festival";
+        return "redirect:/main";
     }
 
 }

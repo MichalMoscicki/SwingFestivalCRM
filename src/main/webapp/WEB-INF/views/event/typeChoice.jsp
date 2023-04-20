@@ -20,5 +20,7 @@
     <label for="party">Wydarzenie specjalne</label><br>
     <input type="submit" value="Dalej">
 </form>
+<br>
+<a href="/festival/details/${festivalId}">POWRÓT</a><br>
 </body>
 </html>

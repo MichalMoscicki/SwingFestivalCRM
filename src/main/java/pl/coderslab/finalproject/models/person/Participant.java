@@ -31,7 +31,7 @@ public class Participant {
     private String city;
     private LocalDateTime registrationDate;
     @ManyToMany(mappedBy = "participants")
-    private List<Event> festivalEvents;
+    private List<Event> events;
     private BigDecimal amountToPay;
     private boolean alreadyPaid;
     private boolean giftsGiven;

@@ -76,51 +76,50 @@ public class EventController {
         return "event/addParty";
     }
 
-//    @PostMapping("/{festivalId}/addParty")
-//    public String addParty(@Valid Party party, BindingResult result, @PathVariable Long festivalId) {
-//        if (result.hasErrors()) {
-//            return "event/addParty";
-//        }
-//        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-//        party.setFestival(festivalOptional.get());
-//        eventRepository.save(party);
-//
-//        return String.format("redirect:/festival/details/%s", festivalId);
-//    }
-//
+    @PostMapping("/{festivalId}/addParty")
+    public String addParty(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
+        if (result.hasErrors()) {
+            return "event/addParty";
+        }
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        event.setFestival(festivalOptional.get());
+        eventRepository.save(event);
+        return String.format("redirect:/festival/details/%s", festivalId);
+    }
+
     @GetMapping("/{festivalId}/addWorkshop")
     public String addWorkshop(@PathVariable Long festivalId, Model model) {
         model.addAttribute("event", new Event());
         model.addAttribute("festivalId", festivalId);
         return "event/addWorkshop";
     }
-//
-//    @PostMapping("/{festivalId}/addWorkshop")
-//    public String addWorkshop(@Valid Workshop workshop, BindingResult result, @PathVariable Long festivalId) {
-//        if (result.hasErrors()) {
-//            return "event/addWorkshop";
-//        }
-//        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-//        workshop.setFestival(festivalOptional.get());
-//        eventRepository.save(workshop);
-//        return String.format("redirect:/festival/details/%s", festivalId);
-//    }
-//
+
+    @PostMapping("/{festivalId}/addWorkshop")
+    public String addWorkshop(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
+        if (result.hasErrors()) {
+            return "event/addWorkshop";
+        }
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        event.setFestival(festivalOptional.get());
+        eventRepository.save(event);
+        return String.format("redirect:/festival/details/%s", festivalId);
+    }
+
     @GetMapping("/{festivalId}/addSpecialEvent")
     public String addSpecialEvent(@PathVariable Long festivalId, Model model) {
         model.addAttribute("event", new Event());
         model.addAttribute("festivalId", festivalId);
         return "event/addSpecialEvent";
     }
-//
-//    @PostMapping("/{festivalId}/addSpecialEvent")
-//    public String addSpecialEvent(@Valid SpecialEvent specialEvent, BindingResult result, @PathVariable Long festivalId) {
-//        if (result.hasErrors()) {
-//            return "event/addSpecialEvent";
-//        }
-//        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-//        specialEvent.setFestival(festivalOptional.get());
-//        eventRepository.save(specialEvent);
-//        return String.format("redirect:/festival/details/%s", festivalId);
-//    }
+
+    @PostMapping("/{festivalId}/addSpecialEvent")
+    public String addSpecialEvent(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
+        if (result.hasErrors()) {
+            return "event/addSpecialEvent";
+        }
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        event.setFestival(festivalOptional.get());
+        eventRepository.save(event);
+        return String.format("redirect:/festival/details/%s", festivalId);
+    }
 }

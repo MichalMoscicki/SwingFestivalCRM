@@ -5,8 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
+import pl.coderslab.finalproject.models.festivalEvents.Event;
 import pl.coderslab.finalproject.models.gift.Gift;
 import pl.coderslab.finalproject.models.person.Participant;
+import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.GiftRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
@@ -24,11 +26,14 @@ public class ParticipantController {
     ParticipantRepository participantRepository;
     FestivalRepository festivalRepository;
     GiftRepository giftRepository;
+    EventRepository eventRepository;
 
-    public ParticipantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository, GiftRepository giftRepository) {
+    public ParticipantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository,
+                                 GiftRepository giftRepository, EventRepository eventRepository) {
         this.participantRepository = participantRepository;
         this.festivalRepository = festivalRepository;
         this.giftRepository = giftRepository;
+        this.eventRepository = eventRepository;
     }
 
     @GetMapping("/all/{festivalId}")
@@ -44,6 +49,8 @@ public class ParticipantController {
     @GetMapping("{festivalId}/add")
     public String displayForm(@PathVariable Long festivalId, Model model) {
         List<Gift> gifts = giftRepository.findAll();
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
         model.addAttribute("gifts", gifts);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("participant", new Participant());
@@ -60,8 +67,11 @@ public class ParticipantController {
         Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
         participant.setFestival(festivalOptional.get());
         BigDecimal price = new BigDecimal(0.00);
-        for (Gift gift : participant.getGifts()){
+        for (Gift gift : participant.getGifts()) {
             price = price.add(gift.getPrice());
+        }
+        for (Event event : participant.getEvents()) {
+            price = price.add(event.getPrice());
         }
         participant.setAmountToPay(price);
         participantRepository.save(participant);

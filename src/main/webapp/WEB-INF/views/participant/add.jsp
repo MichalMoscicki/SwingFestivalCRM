@@ -21,10 +21,13 @@ Dane kontaktowe:<br>
     <form:input path="email"/>email<br>
     <form:input path="phone"/>Telefon<br>
     <form:input path="city"/>Miasto<br>
-    <form:input path="comments"/>Uwagi<br>
-    Wybór eventów<br>
+    <form:textarea path="comments"/>Uwagi<br>
     <br>
-
+    Wybór eventów<br>
+    <c:forEach items="${events}" var="event">
+        <form:checkbox path="events" value="${event}"/>${event.name} : ${event.start} : ${event.price} zł<br>
+    </c:forEach>
+<br>
     Wybór prezentów<br>
     <c:forEach items="${gifts}" var="gift">
         <form:checkbox path="gifts" value="${gift}"/>${gift.name} : ${gift.description} : ${gift.price} zł<br>
