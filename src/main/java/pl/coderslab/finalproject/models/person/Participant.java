@@ -1,9 +1,6 @@
 package pl.coderslab.finalproject.models.person;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.festivalEvents.Event;
@@ -20,6 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +29,10 @@ public class Participant {
     private String email;
     private String phone;
     private String city;
+    private String role;
+    private String partnerName;
+    private String level;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registrationDate;
     private BigDecimal amountToPay;
     private boolean alreadyPaid;
