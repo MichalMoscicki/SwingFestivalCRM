@@ -11,6 +11,7 @@ import pl.coderslab.finalproject.models.person.Participant;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,7 +48,5 @@ public class Event {
     private String soloOrInPairs;
     @ManyToOne
     private Festival festival;
-    @ManyToMany
-    private List<Participant> participants;
 
 }

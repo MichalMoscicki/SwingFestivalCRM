@@ -6,10 +6,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.festivalEvents.Event;
+import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
+import pl.coderslab.finalproject.repositories.ParticipantRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,14 +21,23 @@ public class EventController {
 
     private FestivalRepository festivalRepository;
     private EventRepository eventRepository;
+    private ParticipantRepository participantRepository;
 
-    public EventController(FestivalRepository festivalRepository, EventRepository eventRepository) {
+    public EventController(FestivalRepository festivalRepository, EventRepository eventRepository, ParticipantRepository participantRepository) {
         this.festivalRepository = festivalRepository;
         this.eventRepository = eventRepository;
+        this.participantRepository = participantRepository;
     }
 
-    @GetMapping("/details")
-    public String displayEventDetails() {
+    @GetMapping("/{festivalId}/details/{eventId}")
+    public String displayEventDetails(@PathVariable Long festivalId,
+                                      @PathVariable long eventId,
+                                      Model model) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        model.addAttribute("event", optionalEvent.get());
+        List<Participant> participants = participantRepository.findAllByEvent(optionalEvent.get());
+        model.addAttribute("festivalId", festivalId);
+        model.addAttribute("participants", participants);
         return "event/details";
     }
 

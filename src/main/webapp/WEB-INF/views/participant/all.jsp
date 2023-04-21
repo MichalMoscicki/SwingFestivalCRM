@@ -37,9 +37,6 @@ LISTA WSZYSTKICH UCZESTNIKÓW FESTIWALU:<br>
 </c:forEach>
 </table>
 <br>
-ZRÓB PORZĄDEK W LINKACH I WIDOKACH
-Tu na dole musi być id festiwalu!
-<br>
 <a href="/festival/details/${festival.id}">POWRÓT</a>
 </body>
 </html>
