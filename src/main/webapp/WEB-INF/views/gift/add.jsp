@@ -14,7 +14,7 @@
 <body>
 <form:form method="post" modelAttribute="gift">
     <form:input path="name"/>Nazwa<br>
-    <form:input path="description"/>Opisa<br>
+    <form:input path="description"/>Opis<br>
     <form:input type="number" step="0.01" path="price"/>Cena<br>
     <input type="submit"><br>
 </form:form>

@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
-import pl.coderslab.finalproject.models.festivalEvents.Event;
+import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.gift.Gift;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.EventRepository;
@@ -70,9 +70,10 @@ public class ParticipantController {
         for (Gift gift : participant.getGifts()) {
             price = price.add(gift.getPrice());
         }
-        for (Event event : participant.getEvents()) {
-            price = price.add(event.getPrice());
-        }
+//        for (Event event : participant.getEvents()) {
+//            price = price.add(event.getPrice());
+//        }
+        //popraw tu!
         participant.setAmountToPay(price);
         participantRepository.save(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
@@ -191,9 +192,9 @@ public class ParticipantController {
                                                     @PathVariable Long eventId){
         Optional<Participant> participantOptional = participantRepository.findById(participantId);
         Optional<Event> eventOptional = eventRepository.findById(eventId);
-        List<Event> participantEvents =  participantOptional.get().getEvents();
-        participantEvents.remove(eventOptional.get());
-        participantOptional.get().setEvents(participantEvents);
+     //   List<Event> participantEvents =  participantOptional.get().getEvents();
+//        participantEvents.remove(eventOptional.get());
+//        participantOptional.get().setEvents(participantEvents);
         participantRepository.save(participantOptional.get());
         return String.format("redirect:/event/%s/details/%s", festivalId, eventId);
     }

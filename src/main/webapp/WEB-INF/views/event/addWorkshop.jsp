@@ -21,8 +21,6 @@ Dodaj warsztat:<br>
     <form:input path="start" type="datetime-local" pattern="yyyy-MM-dd'T'HH:mm"/><br>
     Data zakończenia:<br>
     <form:input path="end" type="datetime-local" pattern="yyyy-MM-dd'T'HH:mm"/><br>
-    Cena:<br>
-    <form:input type="number" step="0.01" path="price"/><br>
     Adres:<br>
     <form:input path="address"/><br>
     <form:textarea rows="4" cols="50" path="description"/>Opis<br>

@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
-import pl.coderslab.finalproject.models.festivalEvents.Event;
+import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
@@ -35,9 +35,9 @@ public class EventController {
                                       Model model) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         model.addAttribute("event", optionalEvent.get());
-        List<Participant> participants = participantRepository.findAllByEvent(optionalEvent.get());
+      //  List<Participant> participants = participantRepository.findAllByEvent(optionalEvent.get());
         model.addAttribute("festivalId", festivalId);
-        model.addAttribute("participants", participants);
+       //    model.addAttribute("participants", participants);
         return "event/details";
     }
 
@@ -91,6 +91,7 @@ public class EventController {
     @PostMapping("/{festivalId}/addParty")
     public String addParty(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
         if (result.hasErrors()) {
+            //TU TRZEBA BĘDZIE POPRAWIC:------------
             return "event/addParty";
         }
         Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);

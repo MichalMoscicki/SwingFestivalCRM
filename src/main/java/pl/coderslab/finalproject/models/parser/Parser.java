@@ -1,6 +1,6 @@
 package pl.coderslab.finalproject.models.parser;
 
-import pl.coderslab.finalproject.models.festivalEvents.Event;
+import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.gift.Gift;
 import pl.coderslab.finalproject.models.person.Participant;
 
@@ -39,11 +39,11 @@ public class Parser {
             participant.setPhone(line[5]);
 
             //----- to do poprawy----//
-            Event event = new Event();
-            event.setName(line[6]);
-            List<Event> events = new ArrayList<>();
-            events.add(event);
-            participant.setEvents(events);
+//            Event event = new Event();
+//            event.setName(line[6]);
+//            List<Event> events = new ArrayList<>();
+//            events.add(event);
+//            participant.setEvents(events);
             //----------------------------//
 
             participant.setRole(line[7]);

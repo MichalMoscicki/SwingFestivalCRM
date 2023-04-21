@@ -3,13 +3,13 @@ package pl.coderslab.finalproject.models.person;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.finalproject.models.festival.Festival;
-import pl.coderslab.finalproject.models.festivalEvents.Event;
+import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.pass.Pass;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +41,7 @@ public class Participant {
     @ManyToMany
     private List<Gift> gifts;
     @ManyToMany
-    private List<Event> events;
+    private List<Pass> passes;
     private String comments;
 
 

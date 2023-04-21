@@ -1,4 +1,4 @@
-<%@ page import="pl.coderslab.finalproject.models.festivalEvents.Event" %><%--
+<%@ page import="pl.coderslab.finalproject.models.event.Event" %><%--
   Created by IntelliJ IDEA.
   User: michalmoscicki
   Date: 12/04/2023
@@ -42,6 +42,23 @@ LISTA EVENTÓW:<br>
 </table>
 <br>
 <a href="/event/${festival.id}/eventTypeChoice">[DODAJ WYDARZENIE(superadminOnly)]</a><br>
+************<br>
+<br>
+PASS:<br>
+<c:forEach items="${passes}" var="pass">
+    <c:set var="count2" value="${count2 + 1}" scope="page"/>
+    <tr>
+        <td>${count2}.</td>
+        <td>${pass.name}</td>
+        <td>${pass.price} zł</td>
+        <td><a href="/pass/${festival.id}/details/${pass.id}">[szczegóły]</a></td>
+        <td><a href="/pass/${festival.id}/edit/${pass.id}">[edytuj(superAdminOnly)]</a></td>
+        <td><a href="/pass/${festival.id}/confirmDelete/${pass.id}">[usuń(superAdminOnly)]</a></td>
+        <br>
+    </tr>
+</c:forEach>
+<br>
+<a href="/pass/${festival.id}/add">dodaj pass</a><br>
 ************<br>
 <br>
 UCZESTNICY:<br>

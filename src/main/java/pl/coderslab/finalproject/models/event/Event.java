@@ -1,4 +1,4 @@
-package pl.coderslab.finalproject.models.festivalEvents;
+package pl.coderslab.finalproject.models.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,13 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.finalproject.models.festival.Festival;
-import pl.coderslab.finalproject.models.person.Participant;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -29,7 +26,6 @@ public class Event {
     private LocalDateTime start;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime end;
-    private BigDecimal price;
     private String address;
     private String description;
     private String alcohol;
