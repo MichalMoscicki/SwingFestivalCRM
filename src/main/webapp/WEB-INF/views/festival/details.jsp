@@ -73,7 +73,7 @@ Znajdź uczestnika:<br>
     <input type="submit" value="Wyszukaj">
 </form:form>
 <a href="/participant/${festival.id}/add">dodaj uczestnika</a><br>
-<a href="/participant/addFromFile">dodaj uczestnika z pliku(superadmin only)</a><br>
+<a href="/addFromFile/${festival.id}/chooseFile">dodaj uczestnika z pliku(superadmin only)</a><br>
 ****************<br>
 WYŚLIJ MAILING (superAdminOnly)<br>
 [docelowo ta funkcjonalność ma być podpięta pod googleDocs - maile będe wysyłać się automatycznie po rejestracji i dzień

@@ -55,12 +55,6 @@ public class EventController {
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 
-
-    @GetMapping("/edit")
-    public String editEventDetails() {
-        return "event/edit";
-    }
-
     @GetMapping("/{festivalId}/eventTypeChoice")
     public String eventTypeChoice(@PathVariable Long festivalId, Model model) {
         model.addAttribute("festivalId", festivalId);
@@ -135,4 +129,28 @@ public class EventController {
         eventRepository.save(event);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
+
+
+    @GetMapping("/{festivalId}/edit/{eventId}")
+    public String editEventDetails(@PathVariable Long festivalId,
+                                   @PathVariable Long eventId,
+                                   Model model) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        model.addAttribute("event", eventOptional.get());
+        return "event/edit";
+    }
+
+   @PostMapping("/{festivalId}/edit/{eventId}")
+   public String updateEvent(@Valid Event event,
+                             BindingResult result,
+                             @PathVariable Long festivalId,
+                             @PathVariable Long eventId){
+        if(result.hasErrors()){
+            return String.format("redirect:/event/%s/edit/%s", festivalId, eventId);
+        }
+       Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+       event.setFestival(festivalOptional.get());
+        eventRepository.save(event);
+       return String.format("redirect:/festival/details/%s", festivalId);
+   }
 }

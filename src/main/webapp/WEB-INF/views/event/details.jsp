@@ -18,7 +18,6 @@ Początek: ${event.start}<br>
 Koniec: ${event.end}<br>
 Adres: ${event.address}<br>
 Opis: ${event.description}<br>
-Cena: ${event.price}<br>
 <br>
 <c:choose>
     <c:when test="${event.type == 'party'}">
@@ -55,7 +54,6 @@ Dodaj uczestnika<br>
 <a href="/participant/${festivalId}/details/${participant.id}">[Dodaj uczestnika] OPCJA OPCJONALNA</a>
 <br>
 <a href="/festival/details/${festivalId}">POWRÓT</a><br>
-<a href="/event/edit">EDYTUJ (superAdmin only)</a><br>
 
 </body>
 </html>

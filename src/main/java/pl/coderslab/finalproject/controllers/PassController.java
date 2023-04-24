@@ -3,10 +3,7 @@ package pl.coderslab.finalproject.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.pass.Pass;
@@ -52,7 +49,7 @@ public class PassController {
 
     @PostMapping("{festivalId}/add")
     public String addPass(@Valid Pass pass, BindingResult result,
-                          @PathVariable Long festivalId, Model model) {
+                          @PathVariable Long festivalId) {
         if (result.hasErrors()) {
             return String.format("/pass/%s/add", festivalId);
         }
@@ -78,4 +75,42 @@ public class PassController {
         return String.format("redirect:/festival/details/%s", festivalId);
 
     }
+
+    @GetMapping("{festivalId}/details/{passId}")
+    public String displayDetails(@PathVariable Long festivalId,
+                                            @PathVariable Long passId, Model model) {
+        model.addAttribute("festivalId", festivalId);
+        Optional<Pass> passOptional = passRepository.findById(passId);
+        model.addAttribute("pass", passOptional.get());
+        List<Event> events = passOptional.get().getEvents();
+        model.addAttribute("events", events);
+
+        return "pass/details";
+    }
+
+
+    @GetMapping("{festivalId}/edit/{passId}")
+    public String editPass(@PathVariable Long festivalId,
+                                @PathVariable Long passId, Model model){
+        Optional<Pass> passOptional = passRepository.findById(passId);
+        model.addAttribute("festivalId", festivalId);
+        model.addAttribute("pass", passOptional.get());
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
+        return "pass/edit";
+    }
+
+    @PostMapping("{festivalId}/edit/{passId}")
+    public String editPass(@Valid Pass pass, BindingResult result,
+                           @PathVariable Long festivalId,
+                           @PathVariable Long passId){
+        if (result.hasErrors()) {
+            return String.format("redirect:/pass/%s/edit/%s", festivalId, passId);
+        }
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        pass.setFestival(festivalOptional.get());
+        passRepository.save(pass);
+        return String.format("redirect:/festival/details/%s", festivalId);
+    }
+
 }

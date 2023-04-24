@@ -24,8 +24,8 @@ Dane kontaktowe:<br>
     <form:textarea path="comments"/>Uwagi<br>
     <br>
     Wybór eventów<br>
-    <c:forEach items="${events}" var="event">
-        <form:checkbox path="events" value="${event}"/>${event.name} : ${event.start} : ${event.price} zł<br>
+    <c:forEach items="${passes}" var="pass">
+        <form:checkbox path="passes" value="${pass}"/>${pass.name} :  ${pass.price} zł<br>
     </c:forEach>
 <br>
     Wybór prezentów<br>

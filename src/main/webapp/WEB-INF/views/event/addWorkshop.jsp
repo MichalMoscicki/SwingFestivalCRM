@@ -34,7 +34,7 @@ Dodaj warsztat:<br>
     <form:input path="style"/><br>
     Solo, czy w parach:<br>
     <form:radiobutton path="soloOrInPairs" value="Solo"/>Solo<br>
-    <form:radiobutton path="alcohol" value="barCashAndCard"/>W parach<br>
+    <form:radiobutton path="soloOrInPairs" value="InPairs"/>W parach<br>
     <input type="submit"><br>
     <form:errors path="start" cssClass="error"  element="div" />
     <form:errors path="end" cssClass="error"  element="div" />

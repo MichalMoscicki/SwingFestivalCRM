@@ -7,11 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
-import pl.coderslab.finalproject.repositories.EventRepository;
-import pl.coderslab.finalproject.repositories.FestivalRepository;
-import pl.coderslab.finalproject.repositories.GiftRepository;
-import pl.coderslab.finalproject.repositories.ParticipantRepository;
+import pl.coderslab.finalproject.repositories.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -23,17 +21,19 @@ import java.util.Optional;
 @RequestMapping("/participant")
 public class ParticipantController {
 
-    ParticipantRepository participantRepository;
-    FestivalRepository festivalRepository;
-    GiftRepository giftRepository;
-    EventRepository eventRepository;
+    private final ParticipantRepository participantRepository;
+    private final  FestivalRepository festivalRepository;
+    private final  GiftRepository giftRepository;
+    private final  EventRepository eventRepository;
+    private final PassRepository passRepository;
 
-    public ParticipantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository,
-                                 GiftRepository giftRepository, EventRepository eventRepository) {
+
+    public ParticipantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository, GiftRepository giftRepository, EventRepository eventRepository, PassRepository passRepository) {
         this.participantRepository = participantRepository;
         this.festivalRepository = festivalRepository;
         this.giftRepository = giftRepository;
         this.eventRepository = eventRepository;
+        this.passRepository = passRepository;
     }
 
     @GetMapping("/all/{festivalId}")
@@ -49,8 +49,8 @@ public class ParticipantController {
     @GetMapping("{festivalId}/add")
     public String displayForm(@PathVariable Long festivalId, Model model) {
         List<Gift> gifts = giftRepository.findAll();
-        List<Event> events = eventRepository.findAll();
-        model.addAttribute("events", events);
+        List<Pass> passes = passRepository.findAll();
+        model.addAttribute("passes", passes);
         model.addAttribute("gifts", gifts);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("participant", new Participant());
@@ -70,20 +70,13 @@ public class ParticipantController {
         for (Gift gift : participant.getGifts()) {
             price = price.add(gift.getPrice());
         }
-//        for (Event event : participant.getEvents()) {
-//            price = price.add(event.getPrice());
-//        }
-        //popraw tu!
+        for (Pass pass : participant.getPasses()) {
+            price = price.add(pass.getPrice());
+        }
         participant.setAmountToPay(price);
         participantRepository.save(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
-
-    @GetMapping("/addFromFile")
-    public String addParticipantsFromFile() {
-        return "/participant/addFromFile";
-    }
-
 
     @GetMapping("/deleteConfirm/{festivalId}/{participantId}")
     public String deleteParticipantConfirmation(@PathVariable Long festivalId, @PathVariable Long participantId, Model model) {
