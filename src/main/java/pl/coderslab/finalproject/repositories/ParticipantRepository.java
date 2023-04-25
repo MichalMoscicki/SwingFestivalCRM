@@ -11,8 +11,8 @@ import java.util.List;
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
     List<Participant> findAllByFestival(Festival festival);
-    Participant findByEmail(String email);
-    List<Participant> findAllByLastName(String lastName);
+    Participant findByEmailIgnoreCase(String email);
+    List<Participant> findAllByLastNameIgnoreCase(String lastName);
 
 
 //    @Query("select distinct p from Participant p join FETCH p.events where ?1 member of p.events ")

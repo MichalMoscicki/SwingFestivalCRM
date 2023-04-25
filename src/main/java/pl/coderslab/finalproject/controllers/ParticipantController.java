@@ -47,7 +47,7 @@ public class ParticipantController {
     }
 
     @GetMapping("{festivalId}/add")
-    public String displayForm(@PathVariable Long festivalId, Model model) {
+    public String displayAddForm(@PathVariable Long festivalId, Model model) {
         List<Gift> gifts = giftRepository.findAll();
         List<Pass> passes = passRepository.findAll();
         model.addAttribute("passes", passes);
@@ -102,7 +102,7 @@ public class ParticipantController {
     }
 
     @GetMapping("{festivalId}/details/{participantId}")
-    public String displayParticipant(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
+    public String displayParticipantDetails(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
         Optional<Participant> participantOptional = participantRepository.findById(participantId);
         model.addAttribute("participant", participantOptional.get());
         model.addAttribute("festivalId", festivalId);
@@ -111,7 +111,7 @@ public class ParticipantController {
 
     @PostMapping("/{festivalId}/findByEmail")
     public String findParticipantByEmail(@RequestParam("email") String email, @PathVariable Long festivalId) {
-        Participant participant = participantRepository.findByEmail(email);
+        Participant participant = participantRepository.findByEmailIgnoreCase(email);
 
         if (participant == null) {
             return String.format("redirect:/participant/%s/notFound/%s", festivalId, email);
@@ -121,7 +121,7 @@ public class ParticipantController {
 
     @PostMapping("/{festivalId}/findByLastName")
     public String findParticipantsByLastName(@RequestParam("lastName") String lastName, @PathVariable Long festivalId, Model model) {
-        List<Participant> participants = participantRepository.findAllByLastName(lastName);
+        List<Participant> participants = participantRepository.findAllByLastNameIgnoreCase(lastName);
         model.addAttribute("participants", participants);
         model.addAttribute("lastName", lastName);
         model.addAttribute("festivalId", festivalId);

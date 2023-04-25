@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.pass.Pass;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,6 +44,18 @@ public class Participant {
     @ManyToMany
     private List<Pass> passes;
     private String comments;
+
+    public List<Event> getEvents(){
+        List<Event> events = new ArrayList<>();
+        for(Pass pass : passes){
+            for (Event event: pass.getEvents()) {
+                if (!events.contains(event)){
+                    events.add(event);
+                }
+            }
+        }
+        return events;
+    }
 
 
 }

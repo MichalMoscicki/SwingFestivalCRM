@@ -19,9 +19,18 @@ Telefon: ${participant.phone}<br>
 Miasto: ${participant.city}<br>
 <br>
 Data rejestracji: ${participant.registrationDate}<br>
-Lista wydarzeń:<br>
+<br>
+Lista passów:<br>
+<c:forEach items="${participant.passes}" var="pass">
+    ${pass.name}:  ${pass.price} zł<br>
+</c:forEach>
+<br>
 Merch:<br>
-Kwota do zapłaty: ${participant.amountToPay}<br>
+<c:forEach items="${participant.gifts}" var="gift">
+    ${gift.name}:  ${gift.price} zł<br>
+</c:forEach>
+<br>
+Kwota do zapłaty w sumie: ${participant.amountToPay}<br>
 <br>
 Rejestracja:<br>
 <c:choose>
@@ -38,10 +47,5 @@ Rejestracja:<br>
 </c:choose><br>
 <br>
 <a href="/festival/details/${festivalId}">POWRÓT</a><br>
-<br>
-<br>
-
-----do tego widoku można dostać się z dwóch miejsc (wyszukiwarka, lista wszystkich) - co zrobić, żeby przekierowyało w dwa rózne miejsca?
-----czy udostępnić opcję "cofnij" dla rejestracji?
 </body>
 </html>

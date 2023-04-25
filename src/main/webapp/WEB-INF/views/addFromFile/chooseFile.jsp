@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+Uwaga - plik powinien być w formacie .csv!
 Wybierz plik:<br>
 <form action="" method="post">
     <input type="file" id="fileUpload" name="filePath"><br>

@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.finalproject.models.festival.Festival;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
