@@ -33,10 +33,10 @@ public class Parser {
     }
 
 
-    public List<Participant> parseFile(String filePath, Festival festival) {
+    public List<Participant> parseFile(File file, Festival festival) {
         List<Participant> list = new ArrayList<>();
         try {
-            List<String[]> stringList = readFile(filePath);
+            List<String[]> stringList = readFile(file);
             list = createParticipants(stringList, festival);
             return list;
         } catch (FileNotFoundException e) {
@@ -45,8 +45,7 @@ public class Parser {
         return list;
     }
 
-    private List<String[]> readFile(String path) throws FileNotFoundException {
-        File file = new File(path);
+    private List<String[]> readFile(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         List<String[]> rawList = new ArrayList<>();
         while (scanner.hasNextLine()) {
@@ -117,7 +116,7 @@ public class Parser {
             for (Pass pass : participant.getPasses()) {
                 price = price.add(pass.getPrice());
             }
-            if(!participant.getGifts().isEmpty()) {
+            if (!participant.getGifts().isEmpty()) {
                 for (Gift gift : participant.getGifts()) {
                     price = price.add(gift.getPrice());
                 }
@@ -127,18 +126,5 @@ public class Parser {
             participantList.add(participant);
         }
         return participantList;
-    }
-
-    public List<String> showLines(String filePath) {
-        List<String> stringList = new ArrayList<>();
-        try {
-            List<String[]> rawList = readFile(filePath);
-
-            stringList = rawList.stream().flatMap(Arrays::stream).collect(Collectors.toList());
-            return stringList;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return stringList;
     }
 }

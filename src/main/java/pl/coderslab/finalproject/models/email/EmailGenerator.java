@@ -1,4 +1,4 @@
-package pl.coderslab.finalproject.models.emailGenerator;
+package pl.coderslab.finalproject.models.email;
 
 import org.springframework.stereotype.Component;
 import pl.coderslab.finalproject.models.event.Event;

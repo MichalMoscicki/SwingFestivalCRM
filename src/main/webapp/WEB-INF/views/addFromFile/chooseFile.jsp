@@ -13,10 +13,11 @@
 <body>
 Uwaga - plik powinien być w formacie .csv!
 Wybierz plik:<br>
-<form action="" method="post">
-    <input type="file" id="fileUpload" name="filePath"><br>
-    <input type="submit" value="Dodaj"><br>
-
+<form method="POST" enctype="multipart/form-data" action="/addFromFile/${festivalId}/chooseFile">
+    <table>
+        <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+        <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+    </table>
 </form>
 <a href="/festival/details/${festivalId}">POWRÓT</a>
 </body>
