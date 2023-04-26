@@ -93,13 +93,42 @@ public class ParticipantController {
     }
 
     @GetMapping("{festivalId}/edit/{participantId}")
-    public String displayEditParticipant(@PathVariable Long festivalId,
+    public String editParticipant(@PathVariable Long festivalId,
                                          @PathVariable Long participantId, Model model) {
+        List<Gift> gifts = giftRepository.findAll();
+        List<Pass> passes = passRepository.findAll();
         Optional<Participant> participant = participantRepository.findById(participantId);
         model.addAttribute("participant", participant.get());
         model.addAttribute("festivalId", festivalId);
+        model.addAttribute("passes", passes);
+        model.addAttribute("gifts", gifts);
         return "/participant/edit";
     }
+
+    @PostMapping("/{festivalId}/edit/{participantId}")
+    public String editParticipant(@Valid Participant participant, BindingResult result,
+                                 @PathVariable Long participantId,
+                                 @PathVariable Long festivalId) {
+        if (result.hasErrors()) {
+            System.out.println(result.getFieldError());
+            return String.format("redirect:/participant/%s/edit/%s", festivalId, participantId);
+        }
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        participant.setFestival(festivalOptional.get());
+
+        BigDecimal price = new BigDecimal("0.00");
+        for (Gift gift : participant.getGifts()) {
+            price = price.add(gift.getPrice());
+        }
+        for (Pass pass : participant.getPasses()) {
+            price = price.add(pass.getPrice());
+        }
+        participant.setAmountToPay(price);
+        participantRepository.save(participant);
+        return String.format("redirect:/festival/details/%s", festivalId);
+    }
+
+
 
     @GetMapping("{festivalId}/details/{participantId}")
     public String displayParticipantDetails(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
