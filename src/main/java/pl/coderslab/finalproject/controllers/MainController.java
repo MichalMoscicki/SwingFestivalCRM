@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.person.Admin;
+import pl.coderslab.finalproject.repositories.AdminRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.GiftRepository;
 
@@ -15,12 +17,15 @@ import java.util.List;
 @RequestMapping("/main")
 public class MainController {
 
-    private FestivalRepository festivalRepository;
-    private GiftRepository giftRepository;
+    private final FestivalRepository festivalRepository;
+    private final GiftRepository giftRepository;
+    private final AdminRepository adminRepository;
 
-    public MainController(FestivalRepository festivalRepository, GiftRepository giftRepository) {
+
+    public MainController(FestivalRepository festivalRepository, GiftRepository giftRepository, AdminRepository adminRepository) {
         this.festivalRepository = festivalRepository;
         this.giftRepository = giftRepository;
+        this.adminRepository = adminRepository;
     }
 
     @GetMapping("")
@@ -29,6 +34,8 @@ public class MainController {
         model.addAttribute("festivals", festivals);
         List<Gift> gifts = giftRepository.findAll();
         model.addAttribute("gifts", gifts);
+        List<Admin> admins = adminRepository.findAll();
+        model.addAttribute("admins", admins);
         return "main/main";
     }
 

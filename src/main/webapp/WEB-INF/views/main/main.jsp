@@ -70,6 +70,29 @@ Merch:<br>
 <a href="gift/add">DODAJ MERCH (superAdminOnly)</a><br>
 *************<br>
 
-admin crud<br>
+Admini:<br>
+<table>
+    <tr>
+        <th></th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Email</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <c:set var="count" value="0" scope="page" />
+    <c:forEach items="${admins}" var="admin">
+        <c:set var="count" value="${count + 1}" scope="page"/>
+        <tr>
+            <td>${count}.</td>
+            <td>${admin.firstName}</td>
+            <td>${admin.lastName}</td>
+            <td>${admin.email}</td>
+            <td><a href="admin/edit/${admin.id}">[edytuj(superAdminOnly)]</a></td>
+            <td><a href="admin/deleteConfirm/${admin.id}">[usuń(superAdminOnly)]</a></td>
+        </tr>
+    </c:forEach>
+</table>
+<a href="admin/add">DODAJ ADMINA (superAdminOnly)</a><br>
 </body>
 </html>

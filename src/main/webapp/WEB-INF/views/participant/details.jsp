@@ -17,6 +17,10 @@ Imię i nazwisko: ${participant.firstName} ${participant.lastName}<br>
 Email: ${participant.email} <br>
 Telefon: ${participant.phone}<br>
 Miasto: ${participant.city}<br>
+Lead/follow: ${participant.role}<br>
+Poziom: ${participant.level}<br>
+Imię i nazwisko partnera: ${participant.partnerName} <br>
+Uwagi: ${participant.comments} <br>
 <br>
 Data rejestracji: ${participant.registrationDate}<br>
 <br>
