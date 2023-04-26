@@ -12,10 +12,8 @@
     <title>Title</title>
 </head>
 <body>
-<c:forEach items="${messages}" var="message">
-    ${message}<br>
-    <br>
-    <br>
-</c:forEach>
+Wiadomość wysłana do ${emailsSent} uczestników.<br>
+<br>
+<a href="/festival/details/${festivalId}">POWRÓT</a><br>
 </body>
 </html>
