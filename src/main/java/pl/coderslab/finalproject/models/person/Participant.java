@@ -33,7 +33,6 @@ public class Participant {
     private String role;
     private String partnerName;
     private String level;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registrationDate;
     private BigDecimal amountToPay;
     private boolean alreadyPaid;

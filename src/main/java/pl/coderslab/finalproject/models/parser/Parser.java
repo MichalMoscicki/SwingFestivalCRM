@@ -49,7 +49,7 @@ public class Parser {
         Scanner scanner = new Scanner(file);
         List<String[]> rawList = new ArrayList<>();
         while (scanner.hasNextLine()) {
-            String[] line = scanner.nextLine().split(",");
+            String[] line = scanner.nextLine().split(";");
             rawList.add(line);
         }
         return rawList;
