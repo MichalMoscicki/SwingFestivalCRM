@@ -10,17 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.finalproject.models.person.Admin;
 import pl.coderslab.finalproject.repositories.AdminRepository;
 
+
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
     private final AdminRepository adminRepository;
+   // private final RoleRepository roleRepository;
 
-    public AdminController(AdminRepository adminRepository) {
+    public AdminController(AdminRepository adminRepository
+                           //,RoleRepository roleRepository
+                           ) {
         this.adminRepository = adminRepository;
+       // this.roleRepository = roleRepository;
     }
 
     @GetMapping("add")
@@ -34,6 +39,13 @@ public class AdminController {
         if (result.hasErrors()){
             return "admin/add";
         }
+
+//        Optional<Role> role = roleRepository.findByName("admin");
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role.get());
+//        admin.setRoles(roles);
+
+
         adminRepository.save(admin);
         return "redirect:/main";
     }
