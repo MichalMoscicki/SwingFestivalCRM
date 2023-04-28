@@ -48,7 +48,7 @@ public class FestivalController {
     public String festivalDetails(@PathVariable Long id, Model model) {
         Optional<Festival> optionalFestival = festivalRepository.findById(id);
         optionalFestival.ifPresent(festival -> model.addAttribute("festival", festival));
-        List<Event> events = eventRepository.findAllByFestival(optionalFestival.get());
+        List<Event> events = eventRepository.findAllByFestivalOrderByStart(optionalFestival.get());
         model.addAttribute("events", events);
         List<Pass> passes = passRepository.findAllByFestival(optionalFestival.get());
         model.addAttribute("passes", passes);

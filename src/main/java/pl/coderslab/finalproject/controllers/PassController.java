@@ -34,7 +34,7 @@ public class PassController {
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("pass", new Pass());
         Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        List<Event> eventList = eventRepository.findAllByFestival(festivalOptional.get());
+        List<Event> eventList = eventRepository.findAllByFestivalOrderByStart(festivalOptional.get());
         if (eventList.isEmpty()) {
             return String.format("redirect:/%s/noEvents", festivalId);
         }

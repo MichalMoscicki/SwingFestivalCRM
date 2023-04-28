@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    List<Event> findAllByFestival(Festival festival);
+    List<Event> findAllByFestivalOrderByStart(Festival festival);
 }
