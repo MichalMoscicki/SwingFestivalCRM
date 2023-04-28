@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.finalproject.models.email.EmailGenerator;
+import pl.coderslab.finalproject.utils.email.EmailGenerator;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
@@ -15,7 +15,6 @@ import pl.coderslab.finalproject.service.emailService.EmailSender;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

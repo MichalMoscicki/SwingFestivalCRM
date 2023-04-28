@@ -48,8 +48,12 @@ public class ParticipantController {
 
     @GetMapping("{festivalId}/add")
     public String displayAddForm(@PathVariable Long festivalId, Model model) {
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
         List<Gift> gifts = giftRepository.findAll();
-        List<Pass> passes = passRepository.findAll();
+        List<Pass> passes = passRepository.findAllByFestival(festivalOptional.get());
+        if(passes.isEmpty()){
+            return String.format("redirect:/%s/noPass", festivalId);
+        }
         model.addAttribute("passes", passes);
         model.addAttribute("gifts", gifts);
         model.addAttribute("festivalId", festivalId);
@@ -141,7 +145,7 @@ public class ParticipantController {
         Participant participant = participantRepository.findByEmailIgnoreCase(email);
 
         if (participant == null) {
-            return String.format("redirect:/participant/%s/notFound/%s", festivalId, email);
+            return String.format("redirect:/participant/%s/notFound/%s", festivalId, email.trim());
         }
         return String.format("redirect:details/%s", participant.getId());
     }
@@ -150,7 +154,7 @@ public class ParticipantController {
     public String findParticipantsByLastName(@RequestParam("lastName") String lastName, @PathVariable Long festivalId, Model model) {
         List<Participant> participants = participantRepository.findAllByLastNameIgnoreCase(lastName);
         model.addAttribute("participants", participants);
-        model.addAttribute("lastName", lastName);
+        model.addAttribute("lastName", lastName.trim());
         model.addAttribute("festivalId", festivalId);
 
         if (participants.isEmpty()) {

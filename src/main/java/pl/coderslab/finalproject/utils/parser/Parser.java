@@ -1,4 +1,4 @@
-package pl.coderslab.finalproject.models.parser;
+package pl.coderslab.finalproject.utils.parser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

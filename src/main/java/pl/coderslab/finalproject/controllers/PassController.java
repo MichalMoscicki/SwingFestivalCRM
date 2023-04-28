@@ -33,18 +33,13 @@ public class PassController {
     public String addPass(@PathVariable Long festivalId, Model model) {
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("pass", new Pass());
-        List<Event> eventList = eventRepository.findAll();
+        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        List<Event> eventList = eventRepository.findAllByFestival(festivalOptional.get());
         if (eventList.isEmpty()) {
-            return String.format("redirect:/pass/%s/noEvents", festivalId);
+            return String.format("redirect:/%s/noEvents", festivalId);
         }
         model.addAttribute("events", eventList);
         return "pass/add";
-    }
-
-    @GetMapping("{festivalId}/noEvents")
-    public String noEvents(@PathVariable Long festivalId, Model model) {
-        model.addAttribute("festivalId", festivalId);
-        return "noObject/noEvents";
     }
 
     @PostMapping("{festivalId}/add")
