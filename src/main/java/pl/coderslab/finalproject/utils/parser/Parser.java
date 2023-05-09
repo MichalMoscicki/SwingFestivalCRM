@@ -1,8 +1,6 @@
 package pl.coderslab.finalproject.utils.parser;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.gift.Gift;
 import pl.coderslab.finalproject.models.pass.Pass;
@@ -16,10 +14,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
+
 
 @Component
 public class Parser {
@@ -37,7 +34,7 @@ public class Parser {
         List<Participant> list = new ArrayList<>();
         try {
             List<String[]> stringList = readFile(file);
-            list = createParticipants(stringList, festival);
+            list = createParticipantsUsingBuilder(stringList, festival);
             return list;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,76 +52,83 @@ public class Parser {
         return rawList;
     }
 
-    private List<Participant> createParticipants(List<String[]> lineList, Festival festival) {
+    private List<Participant> createParticipantsUsingBuilder(List<String[]> lineList, Festival festival) {
         List<Participant> participantList = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         for (String[] line : lineList) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            Participant participant = new Participant();
-            participant.setFestival(festival);
-            participant.setRegistrationDate(LocalDateTime.parse(line[0], formatter));
-            participant.setEmail(line[1]);
-            participant.setCity(line[2]);
-            participant.setFirstName(line[3]);
-            participant.setLastName(line[4]);
-            participant.setPhone(line[5]);
-            //--- passes---//
-            List<Pass> participantPasses = new ArrayList<>();
-            List<Pass> allPasses = passRepository.findAll();
-            for (Pass pass : allPasses) {
-                if (pass.getName().toLowerCase().trim().equals(line[6].toLowerCase().trim())) {
-                    participantPasses.add(pass);
-                }
-            }
-            participant.setPasses(participantPasses);
-
-            participant.setRole(line[7]);
-            participant.setPartnerName(line[8]);
-            //--- role---//
-            if (line[10].isEmpty()) {
-                participant.setLevel(line[9]);
-            } else {
-                participant.setLevel(line[10]);
-            }
-            //--- gifts---//
-            List<Gift> participantGifts = new ArrayList<>();
-            participant.setGifts(participantGifts);
-            if (line[11].equals("I want a t-shirt/ Chcę koszulkę")) {
-                List<Gift> gifts = giftRepository.findAll();
-                String sex;
-                if (line[12].toLowerCase().contains("male")) {
-                    sex = "male";
-                } else {
-                    sex = "female";
-                }
-                String size = line[13];
-                String lookedGiftName = String.format("%s %s", sex, size);
-                for (Gift gift : gifts) {
-                    String giftName = gift.getName().toLowerCase().replace(" ", "");
-                    if (giftName.equals(lookedGiftName.toLowerCase().replace(" ", ""))) {
-                        participantGifts.add(gift);
-                    }
-                }
-                participant.setGifts(participantGifts);
-            }
-            //--- comments---//
+            new Participant();
+            Participant participant = Participant.builder().registrationDate(LocalDateTime.parse(line[0], formatter)).
+                    email(line[1]).city(line[2]).firstName(line[3]).lastName(line[4]).phone(line[5])
+                    .passes(participantPasses(line[6], festival))
+                    .role(line[7]).partnerName(line[8]).role(findRole(line[9], line[10])).gifts(findGifts(line[11], line[12], line[13]))
+                    .build();
             if (line.length == 16) {
                 participant.setComments(line[15]);
             }
-            //--- price---//
-            BigDecimal price = new BigDecimal(0.00);
-            for (Pass pass : participant.getPasses()) {
-                price = price.add(pass.getPrice());
-            }
-            if (!participant.getGifts().isEmpty()) {
-                for (Gift gift : participant.getGifts()) {
-                    price = price.add(gift.getPrice());
-                }
-            }
-            participant.setAmountToPay(price);
-            //--- adding to list---//
+            participant.setAmountToPay(calculateAmountToPay(participant));
             participantList.add(participant);
         }
         return participantList;
     }
+
+
+    private List<Pass> participantPasses(String passNames, Festival festival) {
+        List<Pass> participantPasses = new ArrayList<>();
+        List<Pass> allPasses = passRepository.findAllByFestival(festival);
+        for (Pass pass : allPasses) {
+            if (pass.getName().toLowerCase().trim().equals(passNames.toLowerCase().trim())) {
+                participantPasses.add(pass);
+            }
+        }
+        return participantPasses;
+    }
+
+    private String findRole(String firstField, String secondField) {
+        if (firstField.isEmpty()) {
+            return secondField;
+        } else {
+            return firstField;
+        }
+    }
+
+    private List<Gift> findGifts(String firstField, String secondField, String thirdField) {
+
+        List<Gift> participantGifts = new ArrayList<>();
+        if (firstField.equals("I want a t-shirt/ Chcę koszulkę")) {
+            List<Gift> gifts = giftRepository.findAll();
+            String sex;
+            if (secondField.toLowerCase().contains("male")) {
+                sex = "male";
+            } else {
+                sex = "female";
+            }
+            String size = thirdField;
+            String lookedGiftName = String.format("%s %s", sex, size);
+            for (Gift gift : gifts) {
+                String giftName = gift.getName().toLowerCase().replace(" ", "");
+                if (giftName.equals(lookedGiftName.toLowerCase().replace(" ", ""))) {
+                    participantGifts.add(gift);
+                }
+            }
+        }
+        return participantGifts;
+    }
+
+    private BigDecimal calculateAmountToPay(Participant participant) {
+
+        BigDecimal price = new BigDecimal(0.00);
+        for (Pass pass : participant.getPasses()) {
+            price = price.add(pass.getPrice());
+        }
+        if (!participant.getGifts().isEmpty()) {
+            for (Gift gift : participant.getGifts()) {
+                price = price.add(gift.getPrice());
+            }
+        }
+        return price;
+    }
+
 }
+
+

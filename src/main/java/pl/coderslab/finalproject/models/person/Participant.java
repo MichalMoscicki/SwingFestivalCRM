@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder(access = AccessLevel.PUBLIC)
 public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

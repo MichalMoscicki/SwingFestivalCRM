@@ -35,9 +35,7 @@ public class EventController {
                                       Model model) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         model.addAttribute("event", optionalEvent.get());
-      //  List<Participant> participants = participantRepository.findAllByEvent(optionalEvent.get());
         model.addAttribute("festivalId", festivalId);
-       //    model.addAttribute("participants", participants);
         return "event/details";
     }
 
@@ -85,7 +83,8 @@ public class EventController {
     @PostMapping("/{festivalId}/addParty")
     public String addParty(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
         if (result.hasErrors()) {
-            //TU TRZEBA BĘDZIE POPRAWIC:------------
+            //czy to nie powinno pójśc do logów?
+            System.out.println(result.getFieldError());
             return "event/addParty";
         }
         Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
@@ -122,6 +121,8 @@ public class EventController {
     @PostMapping("/{festivalId}/addSpecialEvent")
     public String addSpecialEvent(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
         if (result.hasErrors()) {
+            //czy to nie powinno pójśc do logów?
+            System.out.println(result.getFieldError());
             return "event/addSpecialEvent";
         }
         Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
