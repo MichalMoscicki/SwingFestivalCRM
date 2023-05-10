@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.coderslab.finalproject.validators.StartDateBeforeEndDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
-import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -19,6 +19,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@StartDateBeforeEndDate
 public class Festival {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

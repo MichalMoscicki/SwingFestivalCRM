@@ -1,27 +1,26 @@
 package pl.coderslab.finalproject.validators;
 
+import pl.coderslab.finalproject.models.festival.Festival;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.lang.annotation.Annotation;
-import java.sql.Date;
+import java.time.LocalDate;
 
-public class DateAfterValidator implements ConstraintValidator <DateAfter, Date> {
+public class DateAfterValidator implements ConstraintValidator<StartDateBeforeEndDate, Festival> {
 
-    private Date date;
+
 
     @Override
-    public void initialize(DateAfter constraintAnnotation) {
-        //ConstraintValidator.super.initialize(constraintAnnotation);
-      //  this.date = constraintAnnotation.value();
+    public void initialize(StartDateBeforeEndDate constraintAnnotation) {
     }
 
     @Override
-    public boolean isValid(Date date, ConstraintValidatorContext constraintValidatorContext) {
-
-        if ( date == null ) {
+    public boolean isValid(Festival festival, ConstraintValidatorContext constraintValidatorContext) {
+        LocalDate startDate = festival.getStartDate();
+        LocalDate endDate = festival.getEndDate();
+        if (startDate == null || endDate == null) {
             return true;
         }
-        return false;
-       // return date.after("anotherDate");
+        return endDate.isAfter(startDate);
     }
 }
