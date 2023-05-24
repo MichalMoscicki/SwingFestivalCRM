@@ -29,7 +29,7 @@ public class EventController {
         this.participantRepository = participantRepository;
     }
 
-    @GetMapping("/{festivalId}/details/{eventId}")
+    @GetMapping("/  {festivalId}/details/{eventId}")
     public String displayEventDetails(@PathVariable Long festivalId,
                                       @PathVariable long eventId,
                                       Model model) {
