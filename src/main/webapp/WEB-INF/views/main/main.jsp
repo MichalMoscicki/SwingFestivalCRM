@@ -35,8 +35,8 @@ Festiwale:<br>
             <td>${festival.name}</td>
             <td>${festival.startDate}</td>
             <td>${festival.endDate}</td>
-            <sec:authorize access="hasRole('ADMIN')">
                 <td><a href="festival/details/${festival.id}">[szczegóły]</a></td>
+            <sec:authorize access="hasRole('ADMIN')">
                 <td><a href="festival/edit/${festival.id}">[edytuj]</a></td>
                 <td><a href="festival/deleteConfirm/${festival.id}">[usuń]</a></td>
             </sec:authorize>
@@ -78,6 +78,7 @@ Merch:<br>
         </tr>
     </c:forEach>
 </table>
+<sec:authorize access="hasRole('ADMIN')">
 ************<br>
 <a href="gift/add">DODAJ MERCH (superAdminOnly)</a><br>
 *************<br>
@@ -106,6 +107,7 @@ Admini:<br>
     </c:forEach>
 </table>
 <a href="admin/add">DODAJ ADMINA (superAdminOnly)</a><br>
+</sec:authorize>
 </body>
 <form action="<c:url value="/logout"/>" method="post">
     <input class="fa fa-id-badge" type="submit" value="Wyloguj">

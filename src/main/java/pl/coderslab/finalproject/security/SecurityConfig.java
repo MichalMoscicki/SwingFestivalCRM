@@ -37,7 +37,8 @@ public class SecurityConfig {
                 .antMatchers("/**").hasAnyRole("USER", "ADMIN")
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().logoutSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+                .and().exceptionHandling().accessDeniedPage("/403");
         return http.build();
     }
 }
