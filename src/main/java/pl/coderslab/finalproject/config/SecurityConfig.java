@@ -1,4 +1,4 @@
-package pl.coderslab.finalproject.security;
+package pl.coderslab.finalproject.config;
 
 
 
@@ -18,8 +18,7 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/FirtsUser").permitAll()
+                .antMatchers("/", "/FirtsUser", "/js/**", "/css/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").hasAnyRole("USER", "ADMIN")
                 .and().formLogin().loginPage("/login").permitAll()
