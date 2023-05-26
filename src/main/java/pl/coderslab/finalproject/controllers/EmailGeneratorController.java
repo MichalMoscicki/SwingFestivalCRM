@@ -10,7 +10,7 @@ import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
-import pl.coderslab.finalproject.service.emailService.EmailSender;
+import pl.coderslab.finalproject.utils.email.EmailSender;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

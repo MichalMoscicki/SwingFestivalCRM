@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.coderslab.finalproject.models.role.Role;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -22,6 +24,11 @@ public class Admin {
     private String lastName;
     private String email;
     private String password;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "admin_role", joinColumns = @JoinColumn(name = "admin_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
 
 }
