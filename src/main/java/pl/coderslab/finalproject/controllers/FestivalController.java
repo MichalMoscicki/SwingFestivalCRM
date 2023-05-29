@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
+import pl.coderslab.finalproject.service.FestivalService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,11 +21,14 @@ import java.util.Optional;
 public class FestivalController {
 
     FestivalRepository festivalRepository;
+    private final FestivalService festivalService;
     EventRepository eventRepository;
     PassRepository passRepository;
 
-    public FestivalController(FestivalRepository festivalRepository, EventRepository eventRepository, PassRepository passRepository) {
+
+    public FestivalController(FestivalRepository festivalRepository, FestivalService festivalService, EventRepository eventRepository, PassRepository passRepository) {
         this.festivalRepository = festivalRepository;
+        this.festivalService = festivalService;
         this.eventRepository = eventRepository;
         this.passRepository = passRepository;
     }
@@ -83,7 +87,8 @@ public class FestivalController {
 
     @GetMapping("/delete/{id}")
     public String deleteFestival(@PathVariable Long id) {
-        festivalRepository.deleteById(id);
+        Optional<Festival> festivalOptional = festivalRepository.findById(id);
+        festivalService.deleteFestival(festivalOptional.get());
         return "redirect:/main";
     }
 

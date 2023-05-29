@@ -62,18 +62,15 @@ public class EventController {
     @PostMapping("/{festivalId}/eventTypeChoice")
     public String eventTypeChoice(@PathVariable Long festivalId, @RequestParam String eventType, Model model) {
         model.addAttribute("festivalId", festivalId);
-        switch (eventType) {
-            case "party":
-                return String.format("redirect:/event/%s/addParty", festivalId );
-            case "workshop":
-                return String.format("redirect:/event/%s/addWorkshop", festivalId );
-            case "specialEvent":
-                return String.format("redirect:/event/%s/addSpecialEvent", festivalId );
-        }
-        return String.format("redirect:/festival/details/%s", festivalId );
+        return switch (eventType) {
+            case "party" -> String.format("redirect:/event/%s/addParty", festivalId);
+            case "workshop" -> String.format("redirect:/event/%s/addWorkshop", festivalId);
+            case "specialEvent" -> String.format("redirect:/event/%s/addSpecialEvent", festivalId);
+            default -> String.format("redirect:/festival/details/%s", festivalId);
+        };
     }
 
-    @GetMapping("/{festivalId}/addParty")
+    @RequestMapping("/{festivalId}/addParty")
     public String addParty(@PathVariable Long festivalId, Model model) {
         model.addAttribute("event", new Event());
         model.addAttribute("festivalId", festivalId);

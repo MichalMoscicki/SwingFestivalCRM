@@ -19,6 +19,7 @@
     <input type="radio" id="specialEvent" name="eventType" value="specialEvent">
     <label for="party">Wydarzenie specjalne</label><br>
     <input type="submit" value="Dalej">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 <br>
 <a href="/festival/details/${festivalId}">POWRÓT</a><br>
