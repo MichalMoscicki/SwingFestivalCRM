@@ -30,7 +30,7 @@ public class MainController {
         this.adminRepository = adminRepository;
     }
 
-    @GetMapping("")
+    @RequestMapping("")
     public String displayAllFestivals(Model model) {
         List<Festival> festivals = festivalRepository.findAll();
         model.addAttribute("festivals", festivals);
