@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
+import pl.coderslab.finalproject.service.EventService;
 import pl.coderslab.finalproject.service.FestivalService;
 
 import javax.validation.Valid;
@@ -21,18 +22,21 @@ import java.util.Optional;
 public class EventController {
 
     private final FestivalService festivalService;
+    private final EventService eventService;
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
 
     public EventController(FestivalService festivalService,
+                           EventService eventService,
                            EventRepository eventRepository,
                            ParticipantRepository participantRepository) {
         this.festivalService = festivalService;
+        this.eventService = eventService;
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
     }
 
-    @GetMapping("/  {festivalId}/details/{eventId}")
+    @GetMapping("/{festivalId}/details/{eventId}")
     public String displayEventDetails(@PathVariable Long festivalId,
                                       @PathVariable long eventId,
                                       Model model) {
@@ -52,7 +56,8 @@ public class EventController {
 
     @GetMapping("/{festivalId}/delete/{eventId}")
     public String deleteParticipant(@PathVariable Long eventId, @PathVariable Long festivalId) {
-        eventRepository.deleteById(eventId);
+        eventService.delete(eventRepository.findById(eventId).get());
+        //eventRepository.deleteById(eventId);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 

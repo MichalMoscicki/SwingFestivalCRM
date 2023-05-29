@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class FestivalService {
         this.festivalRepository = festivalRepository;
     }
 
+    @Transactional
     public void deleteFestival(Festival festival){
         List<Participant> participants = participantRepository.findAllByFestival(festival);
         participantRepository.deleteAll(participants);
