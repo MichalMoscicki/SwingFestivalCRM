@@ -6,6 +6,7 @@ import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,25 +20,28 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    //powinien przyjomwać ID
-    public void delete(Event event){
-
-        List<Pass> passesWithThisEvent = passRepository.findAllByEvents(event);
-
-
-        for(Pass pass: passesWithThisEvent){
-            System.out.println(pass.getName());
-            //usuń z listy passów
-            //update pass
-        }
-
-        // co z participantami? - spr, czy działa
-
-        //pobieramy passy, w których znajduje się event
-        // usuwamy z listy eventów
-        //usuwamy event
-
-        //eventRepository.delete(event);
+    public Event findEvent(Long id) {
+        return eventRepository.findById(id).get();
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Event event = findEvent(id);
+        List<Pass> passesWithThisEvent = passRepository.findAllByEvents(event);
+        for (Pass pass : passesWithThisEvent) {
+            pass.getEvents().remove(event);
+            passRepository.save(pass);
+        }
+        eventRepository.delete(event);
+    }
+
+    public void addEvent(Event event) {
+        eventRepository.save(event);
+    }
+
+    public void update(Event event) {
+        eventRepository.save(event);
+    }
+
 
 }

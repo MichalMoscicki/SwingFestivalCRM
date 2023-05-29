@@ -56,8 +56,7 @@ public class EventController {
 
     @GetMapping("/{festivalId}/delete/{eventId}")
     public String deleteParticipant(@PathVariable Long eventId, @PathVariable Long festivalId) {
-        eventService.delete(eventRepository.findById(eventId).get());
-        //eventRepository.deleteById(eventId);
+        eventService.delete(eventId);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 

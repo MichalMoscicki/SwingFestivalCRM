@@ -30,7 +30,9 @@ public class FestivalService {
     }
 
     @Transactional
-    public void deleteFestival(Festival festival){
+    public void deleteFestival(Long id){
+        Festival festival = findFestival(id);
+
         List<Participant> participants = participantRepository.findAllByFestival(festival);
         participantRepository.deleteAll(participants);
 
@@ -41,11 +43,6 @@ public class FestivalService {
         eventRepository.deleteAll(events);
 
         festivalRepository.delete(festival);
-    }
-
-    public void deleteFestivalById(Long id){
-        Festival festival = findFestival(id);
-        deleteFestival(festival);
     }
 
 

@@ -85,7 +85,7 @@ public class FestivalController {
 
     @GetMapping("/delete/{id}")
     public String deleteFestival(@PathVariable Long id) {
-        festivalService.deleteFestivalById(id);
+        festivalService.deleteFestival(id);
         return "redirect:/main";
     }
 }
