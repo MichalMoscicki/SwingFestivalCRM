@@ -20,14 +20,14 @@ import java.util.Optional;
 @RequestMapping("/festival")
 public class FestivalController {
 
-    FestivalRepository festivalRepository;
     private final FestivalService festivalService;
-    EventRepository eventRepository;
-    PassRepository passRepository;
+    private final EventRepository eventRepository;
+    private final PassRepository passRepository;
 
 
-    public FestivalController(FestivalRepository festivalRepository, FestivalService festivalService, EventRepository eventRepository, PassRepository passRepository) {
-        this.festivalRepository = festivalRepository;
+    public FestivalController(FestivalService festivalService,
+                              EventRepository eventRepository,
+                              PassRepository passRepository) {
         this.festivalService = festivalService;
         this.eventRepository = eventRepository;
         this.passRepository = passRepository;
@@ -44,17 +44,17 @@ public class FestivalController {
         if (res.hasErrors()) {
             return "festival/add";
         }
-        festivalRepository.save(festival);
+        festivalService.addFestival(festival);
         return "redirect:/main";
     }
 
     @GetMapping("/details/{id}")
     public String festivalDetails(@PathVariable Long id, Model model) {
-        Optional<Festival> optionalFestival = festivalRepository.findById(id);
-        optionalFestival.ifPresent(festival -> model.addAttribute("festival", festival));
-        List<Event> events = eventRepository.findAllByFestivalOrderByStart(optionalFestival.get());
+        Festival festival = festivalService.findFestival(id);
+        model.addAttribute("festival", festival);
+        List<Event> events = eventRepository.findAllByFestivalOrderByStart(festival);
         model.addAttribute("events", events);
-        List<Pass> passes = passRepository.findAllByFestival(optionalFestival.get());
+        List<Pass> passes = passRepository.findAllByFestival(festival);
         model.addAttribute("passes", passes);
 
         return "festival/details";
@@ -62,8 +62,8 @@ public class FestivalController {
 
     @GetMapping("/edit/{id}")
     public String editFestivalDetails(Model model, @PathVariable Long id) {
-        Optional<Festival> optionalFestival = festivalRepository.findById(id);
-        optionalFestival.ifPresent(festival -> model.addAttribute("festival", festival));
+        Festival festival = festivalService.findFestival(id);
+        model.addAttribute("festival", festival);
         return "festival/edit";
     }
 
@@ -72,24 +72,20 @@ public class FestivalController {
         if (res.hasErrors()) {
             return "festival/edit";
         }
-        festivalRepository.save(festival);
+        festivalService.addFestival(festival);
         return "redirect:/main";
     }
 
-
     @GetMapping("/deleteConfirm/{id}")
     public String deleteFestivalConfirmation(@PathVariable Long id, Model model) {
-        Optional<Festival> festivalOptional = festivalRepository.findById(id);
-        festivalOptional.ifPresent(festival -> model.addAttribute("festival", festival));
-
+        Festival festival = festivalService.findFestival(id);
+        model.addAttribute("festival", festival);
         return "/festival/delete";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteFestival(@PathVariable Long id) {
-        Optional<Festival> festivalOptional = festivalRepository.findById(id);
-        festivalService.deleteFestival(festivalOptional.get());
+        festivalService.deleteFestivalById(id);
         return "redirect:/main";
     }
-
 }

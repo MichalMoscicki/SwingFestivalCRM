@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.gift.Gift;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.*;
+import pl.coderslab.finalproject.service.FestivalService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -22,15 +23,19 @@ import java.util.Optional;
 public class ParticipantController {
 
     private final ParticipantRepository participantRepository;
-    private final FestivalRepository festivalRepository;
+    private final FestivalService festivalService;
     private final GiftRepository giftRepository;
     private final EventRepository eventRepository;
     private final PassRepository passRepository;
 
 
-    public ParticipantController(ParticipantRepository participantRepository, FestivalRepository festivalRepository, GiftRepository giftRepository, EventRepository eventRepository, PassRepository passRepository) {
+    public ParticipantController(ParticipantRepository participantRepository,
+                                 FestivalService festivalService,
+                                 GiftRepository giftRepository,
+                                 EventRepository eventRepository,
+                                 PassRepository passRepository) {
         this.participantRepository = participantRepository;
-        this.festivalRepository = festivalRepository;
+        this.festivalService = festivalService;
         this.giftRepository = giftRepository;
         this.eventRepository = eventRepository;
         this.passRepository = passRepository;
@@ -38,9 +43,9 @@ public class ParticipantController {
 
     @GetMapping("/all/{festivalId}")
     public String displayAllParticipants(@PathVariable Long festivalId, Model model) {
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        List<Participant> participants = participantRepository.findAllByFestival(festivalOptional.get());
-        model.addAttribute("festival", festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        List<Participant> participants = participantRepository.findAllByFestival(festival);
+        model.addAttribute("festival", festival);
         model.addAttribute("participants", participants);
 
         return "/participant/all";
@@ -48,9 +53,9 @@ public class ParticipantController {
 
     @GetMapping("{festivalId}/add")
     public String displayAddForm(@PathVariable Long festivalId, Model model) {
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
+        Festival festival = festivalService.findFestival(festivalId);
         List<Gift> gifts = giftRepository.findAll();
-        List<Pass> passes = passRepository.findAllByFestival(festivalOptional.get());
+        List<Pass> passes = passRepository.findAllByFestival(festival);
         if(passes.isEmpty()){
             return String.format("redirect:/%s/noPass", festivalId);
         }
@@ -68,8 +73,8 @@ public class ParticipantController {
             return String.format("redirect:/participant/%s/add", festivalId);
         }
         participant.setRegistrationDate(LocalDateTime.now());
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        participant.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        participant.setFestival(festival);
         BigDecimal price = new BigDecimal("0.00");
         for (Gift gift : participant.getGifts()) {
             price = price.add(gift.getPrice());
@@ -117,8 +122,8 @@ public class ParticipantController {
             System.out.println(result.getFieldError());
             return String.format("redirect:/participant/%s/edit/%s", festivalId, participantId);
         }
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        participant.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        participant.setFestival(festival);
 
         BigDecimal price = new BigDecimal("0.00");
         for (Gift gift : participant.getGifts()) {

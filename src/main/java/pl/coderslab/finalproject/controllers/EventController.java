@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.ParticipantRepository;
+import pl.coderslab.finalproject.service.FestivalService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,12 +20,14 @@ import java.util.Optional;
 @RequestMapping("/event")
 public class EventController {
 
-    private FestivalRepository festivalRepository;
-    private EventRepository eventRepository;
-    private ParticipantRepository participantRepository;
+    private final FestivalService festivalService;
+    private final EventRepository eventRepository;
+    private final ParticipantRepository participantRepository;
 
-    public EventController(FestivalRepository festivalRepository, EventRepository eventRepository, ParticipantRepository participantRepository) {
-        this.festivalRepository = festivalRepository;
+    public EventController(FestivalService festivalService,
+                           EventRepository eventRepository,
+                           ParticipantRepository participantRepository) {
+        this.festivalService = festivalService;
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
     }
@@ -84,8 +87,8 @@ public class EventController {
             System.out.println(result.getFieldError());
             return "event/addParty";
         }
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        event.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        event.setFestival(festival);
         eventRepository.save(event);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
@@ -102,8 +105,8 @@ public class EventController {
         if (result.hasErrors()) {
             return "event/addWorkshop";
         }
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        event.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        event.setFestival(festival);
         eventRepository.save(event);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
@@ -118,12 +121,10 @@ public class EventController {
     @PostMapping("/{festivalId}/addSpecialEvent")
     public String addSpecialEvent(@Valid Event event, BindingResult result, @PathVariable Long festivalId) {
         if (result.hasErrors()) {
-            //czy to nie powinno pójśc do logów?
-            System.out.println(result.getFieldError());
             return "event/addSpecialEvent";
         }
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        event.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        event.setFestival(festival);
         eventRepository.save(event);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
@@ -146,8 +147,8 @@ public class EventController {
         if(result.hasErrors()){
             return String.format("redirect:/event/%s/edit/%s", festivalId, eventId);
         }
-       Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-       event.setFestival(festivalOptional.get());
+       Festival festival = festivalService.findFestival(festivalId);
+       event.setFestival(festival);
         eventRepository.save(event);
        return String.format("redirect:/festival/details/%s", festivalId);
    }

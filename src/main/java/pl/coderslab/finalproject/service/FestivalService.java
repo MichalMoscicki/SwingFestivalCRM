@@ -11,6 +11,7 @@ import pl.coderslab.finalproject.repositories.ParticipantRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FestivalService {
@@ -28,7 +29,6 @@ public class FestivalService {
     }
 
     public void deleteFestival(Festival festival){
-
         List<Participant> participants = participantRepository.findAllByFestival(festival);
         participantRepository.deleteAll(participants);
 
@@ -39,6 +39,26 @@ public class FestivalService {
         eventRepository.deleteAll(events);
 
         festivalRepository.delete(festival);
-
     }
+
+    public void deleteFestivalById(Long id){
+        Festival festival = findFestival(id);
+        deleteFestival(festival);
+    }
+
+
+    public void addFestival(Festival festival){
+        festivalRepository.save(festival);
+    }
+
+    public void updateFestival(Festival festival){
+        festivalRepository.save(festival);
+    }
+
+    public Festival findFestival(Long id){
+        Optional<Festival> festivalOptional = festivalRepository.findById(id);
+        return festivalOptional.get();
+    }
+
+
 }

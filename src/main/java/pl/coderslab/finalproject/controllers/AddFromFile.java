@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.coderslab.finalproject.models.festival.Festival;
+import pl.coderslab.finalproject.service.FestivalService;
 import pl.coderslab.finalproject.utils.parser.Parser;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
@@ -26,19 +27,21 @@ import java.util.Optional;
 @RequestMapping("/addFromFile")
 public class AddFromFile {
     private final Parser parser;
-    private final FestivalRepository festivalRepository;
+    private final FestivalService festivalService;
     private final ParticipantRepository participantRepository;
     private  final StorageService storageService;
     private final FileConverter fileConverter;
 
-    public AddFromFile(Parser parser, FestivalRepository festivalRepository, ParticipantRepository participantRepository, StorageService storageService, FileConverter fileConverter) {
+    public AddFromFile(Parser parser, FestivalService festivalService,
+                       ParticipantRepository participantRepository,
+                       StorageService storageService,
+                       FileConverter fileConverter) {
         this.parser = parser;
-        this.festivalRepository = festivalRepository;
+        this.festivalService = festivalService;
         this.participantRepository = participantRepository;
         this.storageService = storageService;
         this.fileConverter = fileConverter;
     }
-
 
     @GetMapping("/{festivalId}/chooseFile")
     public String displayChooseForm(@PathVariable Long festivalId, Model model) {
@@ -61,8 +64,8 @@ public class AddFromFile {
 
         File convertedFile = fileConverter.convertToFile(file);
 
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        List<Participant> participantList = parser.parseFile(convertedFile, festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        List<Participant> participantList = parser.parseFile(convertedFile, festival);
         int participantsAdded = 0;
 
         for (Participant participant : participantList) {

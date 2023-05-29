@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
+import pl.coderslab.finalproject.service.FestivalService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,20 +22,22 @@ public class PassController {
 
     private final PassRepository passRepository;
     private final EventRepository eventRepository;
-    private final FestivalRepository festivalRepository;
+    private final FestivalService festivalService;
 
-    public PassController(PassRepository passRepository, EventRepository eventRepository, FestivalRepository festivalRepository) {
+    public PassController(PassRepository passRepository,
+                          EventRepository eventRepository,
+                          FestivalService festivalService) {
         this.passRepository = passRepository;
         this.eventRepository = eventRepository;
-        this.festivalRepository = festivalRepository;
+        this.festivalService = festivalService;
     }
 
     @GetMapping("{festivalId}/add")
     public String addPass(@PathVariable Long festivalId, Model model) {
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("pass", new Pass());
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        List<Event> eventList = eventRepository.findAllByFestivalOrderByStart(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        List<Event> eventList = eventRepository.findAllByFestivalOrderByStart(festival);
         if (eventList.isEmpty()) {
             return String.format("redirect:/%s/noEvents", festivalId);
         }
@@ -48,8 +51,8 @@ public class PassController {
         if (result.hasErrors()) {
             return String.format("/pass/%s/add", festivalId);
         }
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        pass.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        pass.setFestival(festival);
         passRepository.save(pass);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
@@ -102,8 +105,8 @@ public class PassController {
         if (result.hasErrors()) {
             return String.format("redirect:/pass/%s/edit/%s", festivalId, passId);
         }
-        Optional<Festival> festivalOptional = festivalRepository.findById(festivalId);
-        pass.setFestival(festivalOptional.get());
+        Festival festival = festivalService.findFestival(festivalId);
+        pass.setFestival(festival);
         passRepository.save(pass);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
