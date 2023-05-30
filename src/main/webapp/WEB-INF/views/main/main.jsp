@@ -64,16 +64,16 @@ Merch:<br>
         <th></th>
     </tr>
     <c:set var="count" value="0" scope="page"/>
-    <c:forEach items="${gifts}" var="gift">
+    <c:forEach items="${merch}" var="m">
         <c:set var="count" value="${count + 1}" scope="page"/>
         <tr>
             <td>${count}.</td>
-            <td>${gift.name}</td>
-            <td>${gift.description}</td>
-            <td>${gift.price}</td>
+            <td>${m.name}</td>
+            <td>${m.description}</td>
+            <td>${m.price}</td>
             <sec:authorize access="hasRole('ADMIN')">
-                <td><a href="merch/edit/${gift.id}">[edytuj]</a></td>
-                <td><a href="merch/deleteConfirm/${gift.id}">[usuń]</a></td>
+                <td><a href="merch/edit/${m.id}">[edytuj]</a></td>
+                <td><a href="merch/deleteConfirm/${m.id}">[usuń]</a></td>
             </sec:authorize>
         </tr>
     </c:forEach>

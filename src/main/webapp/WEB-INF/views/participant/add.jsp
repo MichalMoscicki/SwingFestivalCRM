@@ -29,8 +29,8 @@ Dane kontaktowe:<br>
     </c:forEach>
 <br>
     Wybór prezentów<br>
-    <c:forEach items="${gifts}" var="gift">
-        <form:checkbox path="gifts" value="${gift}"/>${gift.name} : ${gift.description} : ${gift.price} zł<br>
+    <c:forEach items="${merch}" var="m">
+        <form:checkbox path="merch" value="${m}"/>${m.name} : ${m.description} : ${m.price} zł<br>
     </c:forEach>
     <input type="submit" value="Dodaj">
 </form:form>

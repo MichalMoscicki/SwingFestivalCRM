@@ -100,7 +100,7 @@ public class ParticipantController {
     @GetMapping("/delete/{festivalId}/{participantId}")
     public String deleteParticipant(@PathVariable Long participantId,
                                     @PathVariable Long festivalId) {
-        passService.delete(participantId);
+        participantService.delete(participantId);
         return "redirect:/participant/all/" + festivalId;
     }
 

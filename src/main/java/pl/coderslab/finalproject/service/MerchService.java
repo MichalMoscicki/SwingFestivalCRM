@@ -2,7 +2,9 @@ package pl.coderslab.finalproject.service;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.finalproject.models.merch.Merch;
+import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.MerchRepository;
+import pl.coderslab.finalproject.repositories.ParticipantRepository;
 
 import java.util.List;
 
@@ -10,9 +12,12 @@ import java.util.List;
 public class MerchService {
 
     private final MerchRepository merchRepository;
+    private final ParticipantRepository participantRepository;
 
-    public MerchService(MerchRepository merchRepository) {
+    public MerchService(MerchRepository merchRepository,
+                        ParticipantRepository participantRepository) {
         this.merchRepository = merchRepository;
+        this.participantRepository = participantRepository;
     }
 
     public Merch findById(Long id){
@@ -29,7 +34,12 @@ public class MerchService {
 
     public void delete(Long id){
         Merch merch = findById(id);
-        //wywalić go z wszystkich użytkowników, którzy mają dany merch!
+        List<Participant> participantsWithThisMerch = participantRepository.findAllByMerch(merch);
+        for(Participant p : participantsWithThisMerch){
+            p.getMerch().remove(merch);
+            p.setAmountToPay(p.calculateAmountToPay());
+            participantRepository.save(p);
+        }
         merchRepository.delete(merch);
     }
 

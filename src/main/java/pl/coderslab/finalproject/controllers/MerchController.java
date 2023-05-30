@@ -25,13 +25,13 @@ public class MerchController {
     }
 
     @GetMapping("/add")
-    public String addGift(Model model) {
+    public String addMerch(Model model) {
         model.addAttribute("merch", new Merch());
         return "merch/add";
     }
 
     @PostMapping("/add")
-    public String addGift(@Valid Merch merch, BindingResult res) {
+    public String addMerch(@Valid Merch merch, BindingResult res) {
         if (res.hasErrors()) {
             return "merch/add";
         }
@@ -40,14 +40,14 @@ public class MerchController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editGiftDetails(Model model, @PathVariable Long id) {
+    public String editMerchDetails(Model model, @PathVariable Long id) {
         Merch merch = merchService.findById(id);
         model.addAttribute("merch", merch);
         return "merch/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String editFestivalDetails(@Valid Merch merch, BindingResult res) {
+    public String editMerchDetails(@Valid Merch merch, BindingResult res) {
         if (res.hasErrors()) {
             return "main";
         }
@@ -57,7 +57,7 @@ public class MerchController {
     }
 
     @GetMapping("/deleteConfirm/{id}")
-    public String deleteFestivalConfirmation(@PathVariable Long id, Model model) {
+    public String deleteMerchConfirmation(@PathVariable Long id, Model model) {
         Merch merch = merchService.findById(id);
         model.addAttribute("merch", merch);
 
@@ -66,7 +66,7 @@ public class MerchController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteFestival(@PathVariable Long id) {
+    public String deleteMerch(@PathVariable Long id) {
         merchService.delete(id);
         return "redirect:/main";
     }

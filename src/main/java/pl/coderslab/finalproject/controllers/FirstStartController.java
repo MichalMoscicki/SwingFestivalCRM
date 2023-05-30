@@ -34,9 +34,9 @@ public class FirstStartController {
     @ResponseBody
     public String firstStart(){
 
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        roleRepository.save(role);
+        Role roleAdmin = new Role();
+        roleAdmin.setName("ROLE_ADMIN");
+        roleRepository.save(roleAdmin);
 
         Admin admin = new Admin();
         admin.setEmail("karol@karolak.pl");
@@ -45,9 +45,13 @@ public class FirstStartController {
         admin.setPassword(bCryptPasswordEncoder.encode("karol"));
 
         Set<Role> roles = new HashSet<>();
-        roles.add(role);
+        roles.add(roleAdmin);
         admin.setRoles(roles);
         adminRepository.save(admin);
+
+        Role roleUser = new Role();
+        roleUser.setName("ROLE_USER");
+        roleRepository.save(roleUser);
 
         return "Dodano pierwszego admina";
     }
