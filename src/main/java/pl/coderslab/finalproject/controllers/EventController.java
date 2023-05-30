@@ -24,16 +24,14 @@ public class EventController {
     private final FestivalService festivalService;
     private final EventService eventService;
     private final EventRepository eventRepository;
-    private final ParticipantRepository participantRepository;
+
 
     public EventController(FestivalService festivalService,
                            EventService eventService,
-                           EventRepository eventRepository,
-                           ParticipantRepository participantRepository) {
+                           EventRepository eventRepository) {
         this.festivalService = festivalService;
         this.eventService = eventService;
         this.eventRepository = eventRepository;
-        this.participantRepository = participantRepository;
     }
 
     @GetMapping("/{festivalId}/details/{eventId}")

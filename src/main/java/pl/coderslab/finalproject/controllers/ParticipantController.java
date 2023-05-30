@@ -11,7 +11,8 @@ import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.*;
 import pl.coderslab.finalproject.service.FestivalService;
-import pl.coderslab.finalproject.service.fileUploadService.PassService;
+import pl.coderslab.finalproject.service.ParticipantService;
+import pl.coderslab.finalproject.service.PassService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -23,19 +24,19 @@ import java.util.Optional;
 @RequestMapping("/participant")
 public class ParticipantController {
 
-    private final ParticipantRepository participantRepository;
+    private final ParticipantService participantService;
     private final FestivalService festivalService;
     private final GiftRepository giftRepository;
     private final EventRepository eventRepository;
     private final PassService passService;
 
 
-    public ParticipantController(ParticipantRepository participantRepository,
+    public ParticipantController(ParticipantService participantService,
                                  FestivalService festivalService,
                                  GiftRepository giftRepository,
                                  EventRepository eventRepository,
                                  PassService passService) {
-        this.participantRepository = participantRepository;
+        this.participantService = participantService;
         this.festivalService = festivalService;
         this.giftRepository = giftRepository;
         this.eventRepository = eventRepository;
@@ -45,7 +46,7 @@ public class ParticipantController {
     @GetMapping("/all/{festivalId}")
     public String displayAllParticipants(@PathVariable Long festivalId, Model model) {
         Festival festival = festivalService.findFestival(festivalId);
-        List<Participant> participants = participantRepository.findAllByFestival(festival);
+        List<Participant> participants = participantService.findAllByFestival(festival);
         model.addAttribute("festival", festival);
         model.addAttribute("participants", participants);
 
@@ -84,21 +85,24 @@ public class ParticipantController {
             price = price.add(pass.getPrice());
         }
         participant.setAmountToPay(price);
-        participantRepository.save(participant);
+        participantService.add(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 
     @GetMapping("/deleteConfirm/{festivalId}/{participantId}")
-    public String deleteParticipantConfirmation(@PathVariable Long festivalId, @PathVariable Long participantId, Model model) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
-        model.addAttribute("participant", participantOptional.get());
+    public String deleteParticipantConfirmation(@PathVariable Long festivalId,
+                                                @PathVariable Long participantId,
+                                                Model model) {
+        Participant participant = participantService.findById(participantId);
+        model.addAttribute("participant", participant);
         model.addAttribute("festivalId", festivalId);
         return "/participant/delete";
     }
 
     @GetMapping("/delete/{festivalId}/{participantId}")
-    public String deleteParticipant(@PathVariable Long participantId, @PathVariable Long festivalId) {
-        participantRepository.deleteById(participantId);
+    public String deleteParticipant(@PathVariable Long participantId,
+                                    @PathVariable Long festivalId) {
+        passService.delete(participantId);
         return "redirect:/participant/all/" + festivalId;
     }
 
@@ -107,8 +111,8 @@ public class ParticipantController {
                                   @PathVariable Long participantId, Model model) {
         List<Gift> gifts = giftRepository.findAll();
         List<Pass> passes = passService.findAll();
-        Optional<Participant> participant = participantRepository.findById(participantId);
-        model.addAttribute("participant", participant.get());
+        Participant participant = participantService.findById(participantId);
+        model.addAttribute("participant", participant);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("passes", passes);
         model.addAttribute("gifts", gifts);
@@ -134,21 +138,21 @@ public class ParticipantController {
             price = price.add(pass.getPrice());
         }
         participant.setAmountToPay(price);
-        participantRepository.save(participant);
+        participantService.add(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 
     @GetMapping("{festivalId}/details/{participantId}")
     public String displayParticipantDetails(@PathVariable Long participantId, @PathVariable Long festivalId, Model model) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
-        model.addAttribute("participant", participantOptional.get());
+        Participant participant = participantService.findById(participantId);
+        model.addAttribute("participant", participant);
         model.addAttribute("festivalId", festivalId);
         return "/participant/details";
     }
 
     @PostMapping("/{festivalId}/findByEmail")
     public String findParticipantByEmail(@RequestParam("email") String email, @PathVariable Long festivalId) {
-        Participant participant = participantRepository.findByEmailIgnoreCase(email);
+        Participant participant = participantService.findByEmailIgnoreCase(email);
 
         if (participant == null) {
             return String.format("redirect:/participant/%s/notFound/%s", festivalId, email.trim());
@@ -158,7 +162,7 @@ public class ParticipantController {
 
     @PostMapping("/{festivalId}/findByLastName")
     public String findParticipantsByLastName(@RequestParam("lastName") String lastName, @PathVariable Long festivalId, Model model) {
-        List<Participant> participants = participantRepository.findAllByLastNameIgnoreCase(lastName);
+        List<Participant> participants = participantService.findAllByLastNameIgnoreCase(lastName);
         model.addAttribute("participants", participants);
         model.addAttribute("lastName", lastName.trim());
         model.addAttribute("festivalId", festivalId);
@@ -180,27 +184,27 @@ public class ParticipantController {
     @GetMapping("{festivalId}/{participantId}/confirmPayment")
     public String confirmPayment(@PathVariable Long festivalId,
                                  @PathVariable Long participantId) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
-        participantOptional.get().setAlreadyPaid(true);
-        participantRepository.save(participantOptional.get());
+        Participant participant = participantService.findById(participantId);
+        participant.setAlreadyPaid(true);
+        participantService.add(participant);
         return (String.format("redirect:/participant/%s/details/%s", festivalId, participantId));
     }
 
     @GetMapping("{festivalId}/{participantId}/giveBracelet")
     public String giveBracelet(@PathVariable Long festivalId,
                                @PathVariable Long participantId) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
-        participantOptional.get().setBraceletGiven(true);
-        participantRepository.save(participantOptional.get());
+        Participant participant = participantService.findById(participantId);
+        participant.setBraceletGiven(true);
+        participantService.add(participant);
         return (String.format("redirect:/participant/%s/details/%s", festivalId, participantId));
     }
 
     @GetMapping("{festivalId}/{participantId}/giveMerch")
     public String giveMerch(@PathVariable Long festivalId,
                             @PathVariable Long participantId) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
-        participantOptional.get().setGiftsGiven(true);
-        participantRepository.save(participantOptional.get());
+        Participant participant = participantService.findById(participantId);
+        participant.setGiftsGiven(true);
+        participantService.add(participant);
         return (String.format("redirect:/participant/%s/details/%s", festivalId, participantId));
     }
 
@@ -208,26 +212,12 @@ public class ParticipantController {
     public String deleteParticipantFromEventConfirm(@PathVariable Long festivalId,
                                                     @PathVariable Long participantId,
                                                     @PathVariable Long eventId, Model model) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
+        Participant participant = participantService.findById(participantId);
         Optional<Event> eventOptional = eventRepository.findById(eventId);
-        model.addAttribute("participant", participantOptional.get());
+        model.addAttribute("participant", participant);
         model.addAttribute("event", eventOptional.get());
         model.addAttribute("festivalId", festivalId);
         return "event/deleteParticipantFromEventConfirm";
     }
-
-    @GetMapping("{festivalId}/deleteParticipantFromEvent/{participantId}/{eventId}")
-    public String deleteParticipantFromEvent(@PathVariable Long festivalId,
-                                             @PathVariable Long participantId,
-                                             @PathVariable Long eventId) {
-        Optional<Participant> participantOptional = participantRepository.findById(participantId);
-        Optional<Event> eventOptional = eventRepository.findById(eventId);
-        //   List<Event> participantEvents =  participantOptional.get().getEvents();
-//        participantEvents.remove(eventOptional.get());
-//        participantOptional.get().setEvents(participantEvents);
-        participantRepository.save(participantOptional.get());
-        return String.format("redirect:/event/%s/details/%s", festivalId, eventId);
-    }
-
 
 }

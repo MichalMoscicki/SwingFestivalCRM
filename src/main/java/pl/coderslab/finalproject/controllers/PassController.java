@@ -8,14 +8,11 @@ import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
-import pl.coderslab.finalproject.repositories.FestivalRepository;
-import pl.coderslab.finalproject.repositories.PassRepository;
 import pl.coderslab.finalproject.service.FestivalService;
-import pl.coderslab.finalproject.service.fileUploadService.PassService;
+import pl.coderslab.finalproject.service.PassService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/pass")

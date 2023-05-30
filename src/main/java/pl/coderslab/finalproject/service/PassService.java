@@ -1,4 +1,4 @@
-package pl.coderslab.finalproject.service.fileUploadService;
+package pl.coderslab.finalproject.service;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.finalproject.models.event.Event;
@@ -33,7 +33,6 @@ public class PassService {
     public void update(Pass pass){
         passRepository.save(pass);
     }
-
 
     @Transactional
     public void delete(Long id){
