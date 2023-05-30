@@ -11,6 +11,7 @@ import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
 import pl.coderslab.finalproject.service.FestivalService;
+import pl.coderslab.finalproject.service.fileUploadService.PassService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,15 +23,15 @@ public class FestivalController {
 
     private final FestivalService festivalService;
     private final EventRepository eventRepository;
-    private final PassRepository passRepository;
+    private final PassService passService;
 
 
     public FestivalController(FestivalService festivalService,
                               EventRepository eventRepository,
-                              PassRepository passRepository) {
+                              PassService passService) {
         this.festivalService = festivalService;
         this.eventRepository = eventRepository;
-        this.passRepository = passRepository;
+        this.passService = passService;
     }
 
     @GetMapping("/add")
@@ -54,7 +55,7 @@ public class FestivalController {
         model.addAttribute("festival", festival);
         List<Event> events = eventRepository.findAllByFestivalOrderByStart(festival);
         model.addAttribute("events", events);
-        List<Pass> passes = passRepository.findAllByFestival(festival);
+        List<Pass> passes = passService.findAllByFestival(festival);
         model.addAttribute("passes", passes);
 
         return "festival/details";

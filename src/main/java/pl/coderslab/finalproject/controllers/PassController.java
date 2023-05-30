@@ -11,6 +11,7 @@ import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
 import pl.coderslab.finalproject.service.FestivalService;
+import pl.coderslab.finalproject.service.fileUploadService.PassService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,16 +21,16 @@ import java.util.Optional;
 @RequestMapping("/pass")
 public class PassController {
 
-    private final PassRepository passRepository;
     private final EventRepository eventRepository;
     private final FestivalService festivalService;
+    private final PassService passService;
 
-    public PassController(PassRepository passRepository,
-                          EventRepository eventRepository,
-                          FestivalService festivalService) {
-        this.passRepository = passRepository;
+    public PassController(EventRepository eventRepository,
+                          FestivalService festivalService,
+                          PassService passService) {
         this.eventRepository = eventRepository;
         this.festivalService = festivalService;
+        this.passService = passService;
     }
 
     @GetMapping("{festivalId}/add")
@@ -53,7 +54,7 @@ public class PassController {
         }
         Festival festival = festivalService.findFestival(festivalId);
         pass.setFestival(festival);
-        passRepository.save(pass);
+        passService.add(pass);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 
@@ -61,15 +62,15 @@ public class PassController {
     public String displayDeleteConfirmation(@PathVariable Long festivalId,
                                             @PathVariable Long passId, Model model) {
         model.addAttribute("festivalId", festivalId);
-        Optional<Pass> passOptional = passRepository.findById(passId);
-        model.addAttribute("pass", passOptional.get());
+        Pass pass = passService.findById(passId);
+        model.addAttribute("pass", pass);
         return "pass/confirmDelete";
     }
 
     @GetMapping("delete/{festivalId}/{passId}")
     public String delete(@PathVariable Long festivalId,
                                 @PathVariable Long passId) {
-        passRepository.deleteById(passId);
+        passService.delete(passId);
         return String.format("redirect:/festival/details/%s", festivalId);
 
     }
@@ -78,9 +79,9 @@ public class PassController {
     public String displayDetails(@PathVariable Long festivalId,
                                             @PathVariable Long passId, Model model) {
         model.addAttribute("festivalId", festivalId);
-        Optional<Pass> passOptional = passRepository.findById(passId);
-        model.addAttribute("pass", passOptional.get());
-        List<Event> events = passOptional.get().getEvents();
+        Pass pass = passService.findById(passId);
+        model.addAttribute("pass", pass);
+        List<Event> events = pass.getEvents();
         model.addAttribute("events", events);
 
         return "pass/details";
@@ -90,9 +91,9 @@ public class PassController {
     @GetMapping("{festivalId}/edit/{passId}")
     public String editPass(@PathVariable Long festivalId,
                                 @PathVariable Long passId, Model model){
-        Optional<Pass> passOptional = passRepository.findById(passId);
+        Pass pass = passService.findById(passId);
         model.addAttribute("festivalId", festivalId);
-        model.addAttribute("pass", passOptional.get());
+        model.addAttribute("pass", pass);
         List<Event> events = eventRepository.findAll();
         model.addAttribute("events", events);
         return "pass/edit";
@@ -107,7 +108,7 @@ public class PassController {
         }
         Festival festival = festivalService.findFestival(festivalId);
         pass.setFestival(festival);
-        passRepository.save(pass);
+        passService.add(pass);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
 

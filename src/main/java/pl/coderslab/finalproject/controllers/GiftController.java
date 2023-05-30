@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequestMapping("/gift")
 public class GiftController {
 
-    private GiftRepository giftRepository;
+    private final GiftRepository giftRepository;
 
     public GiftController(GiftRepository giftRepository) {
         this.giftRepository = giftRepository;

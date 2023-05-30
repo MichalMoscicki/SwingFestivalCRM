@@ -20,13 +20,13 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public Event findEvent(Long id) {
+    public Event findById(Long id) {
         return eventRepository.findById(id).get();
     }
 
     @Transactional
     public void delete(Long id) {
-        Event event = findEvent(id);
+        Event event = findById(id);
         List<Pass> passesWithThisEvent = passRepository.findAllByEvents(event);
         for (Pass pass : passesWithThisEvent) {
             pass.getEvents().remove(event);
@@ -35,7 +35,7 @@ public class EventService {
         eventRepository.delete(event);
     }
 
-    public void addEvent(Event event) {
+    public void add(Event event) {
         eventRepository.save(event);
     }
 

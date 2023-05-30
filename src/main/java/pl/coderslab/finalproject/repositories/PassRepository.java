@@ -14,8 +14,6 @@ public interface PassRepository extends JpaRepository<Pass, Long> {
 
     List<Pass> findAllByFestival(Festival festival);
 
-
-    @Query("")
     List<Pass> findAllByEvents(Event event);
 
 }

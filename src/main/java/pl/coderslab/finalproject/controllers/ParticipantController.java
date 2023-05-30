@@ -11,6 +11,7 @@ import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.*;
 import pl.coderslab.finalproject.service.FestivalService;
+import pl.coderslab.finalproject.service.fileUploadService.PassService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -26,19 +27,19 @@ public class ParticipantController {
     private final FestivalService festivalService;
     private final GiftRepository giftRepository;
     private final EventRepository eventRepository;
-    private final PassRepository passRepository;
+    private final PassService passService;
 
 
     public ParticipantController(ParticipantRepository participantRepository,
                                  FestivalService festivalService,
                                  GiftRepository giftRepository,
                                  EventRepository eventRepository,
-                                 PassRepository passRepository) {
+                                 PassService passService) {
         this.participantRepository = participantRepository;
         this.festivalService = festivalService;
         this.giftRepository = giftRepository;
         this.eventRepository = eventRepository;
-        this.passRepository = passRepository;
+        this.passService = passService;
     }
 
     @GetMapping("/all/{festivalId}")
@@ -55,7 +56,7 @@ public class ParticipantController {
     public String displayAddForm(@PathVariable Long festivalId, Model model) {
         Festival festival = festivalService.findFestival(festivalId);
         List<Gift> gifts = giftRepository.findAll();
-        List<Pass> passes = passRepository.findAllByFestival(festival);
+        List<Pass> passes = passService.findAllByFestival(festival);
         if(passes.isEmpty()){
             return String.format("redirect:/%s/noPass", festivalId);
         }
@@ -105,7 +106,7 @@ public class ParticipantController {
     public String editParticipant(@PathVariable Long festivalId,
                                   @PathVariable Long participantId, Model model) {
         List<Gift> gifts = giftRepository.findAll();
-        List<Pass> passes = passRepository.findAll();
+        List<Pass> passes = passService.findAll();
         Optional<Participant> participant = participantRepository.findById(participantId);
         model.addAttribute("participant", participant.get());
         model.addAttribute("festivalId", festivalId);
