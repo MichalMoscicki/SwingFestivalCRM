@@ -8,6 +8,7 @@ import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
+import pl.coderslab.finalproject.service.EventService;
 import pl.coderslab.finalproject.service.FestivalService;
 import pl.coderslab.finalproject.service.PassService;
 
@@ -19,15 +20,15 @@ import java.util.List;
 public class FestivalController {
 
     private final FestivalService festivalService;
-    private final EventRepository eventRepository;
+    private final EventService eventService;
     private final PassService passService;
 
 
     public FestivalController(FestivalService festivalService,
-                              EventRepository eventRepository,
+                              EventService eventService,
                               PassService passService) {
         this.festivalService = festivalService;
-        this.eventRepository = eventRepository;
+        this.eventService = eventService;
         this.passService = passService;
     }
 
@@ -50,7 +51,7 @@ public class FestivalController {
     public String festivalDetails(@PathVariable Long id, Model model) {
         Festival festival = festivalService.findFestival(id);
         model.addAttribute("festival", festival);
-        List<Event> events = eventRepository.findAllByFestivalOrderByStart(festival);
+        List<Event> events = eventService.findAllByFestivalOrderByStart(festival);
         model.addAttribute("events", events);
         List<Pass> passes = passService.findAllByFestival(festival);
         model.addAttribute("passes", passes);

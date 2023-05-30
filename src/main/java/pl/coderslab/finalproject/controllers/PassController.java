@@ -8,6 +8,7 @@ import pl.coderslab.finalproject.models.event.Event;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
+import pl.coderslab.finalproject.service.EventService;
 import pl.coderslab.finalproject.service.FestivalService;
 import pl.coderslab.finalproject.service.PassService;
 
@@ -17,15 +18,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/pass")
 public class PassController {
-
-    private final EventRepository eventRepository;
+    private final EventService eventService;
     private final FestivalService festivalService;
     private final PassService passService;
 
-    public PassController(EventRepository eventRepository,
+    public PassController(EventService eventService,
                           FestivalService festivalService,
                           PassService passService) {
-        this.eventRepository = eventRepository;
+        this.eventService = eventService;
         this.festivalService = festivalService;
         this.passService = passService;
     }
@@ -35,7 +35,7 @@ public class PassController {
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("pass", new Pass());
         Festival festival = festivalService.findFestival(festivalId);
-        List<Event> eventList = eventRepository.findAllByFestivalOrderByStart(festival);
+        List<Event> eventList = eventService.findAllByFestivalOrderByStart(festival);
         if (eventList.isEmpty()) {
             return String.format("redirect:/%s/noEvents", festivalId);
         }
@@ -91,7 +91,7 @@ public class PassController {
         Pass pass = passService.findById(passId);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("pass", pass);
-        List<Event> events = eventRepository.findAll();
+        List<Event> events = eventService.findAll();
         model.addAttribute("events", events);
         return "pass/edit";
     }

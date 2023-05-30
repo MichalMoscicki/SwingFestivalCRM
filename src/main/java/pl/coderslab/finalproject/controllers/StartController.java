@@ -11,8 +11,6 @@ import pl.coderslab.finalproject.service.AdminService;
 @Controller
 public class StartController {
 
-
-
     @GetMapping("/")
     public String displayStartPage(){
         return "start/start";

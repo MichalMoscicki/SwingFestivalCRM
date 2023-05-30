@@ -9,6 +9,8 @@ import pl.coderslab.finalproject.models.person.Admin;
 import pl.coderslab.finalproject.repositories.AdminRepository;
 import pl.coderslab.finalproject.repositories.FestivalRepository;
 import pl.coderslab.finalproject.repositories.MerchRepository;
+import pl.coderslab.finalproject.service.AdminService;
+import pl.coderslab.finalproject.service.MerchService;
 
 import java.util.List;
 
@@ -17,23 +19,24 @@ import java.util.List;
 public class MainController {
 
     private final FestivalRepository festivalRepository;
-    private final MerchRepository giftRepository;
-    private final AdminRepository adminRepository;
+    private final MerchService merchService;
+    private final AdminService adminService;
 
-
-    public MainController(FestivalRepository festivalRepository, MerchRepository giftRepository, AdminRepository adminRepository) {
+    public MainController(FestivalRepository festivalRepository,
+                          MerchService merchService,
+                          AdminService adminService) {
         this.festivalRepository = festivalRepository;
-        this.giftRepository = giftRepository;
-        this.adminRepository = adminRepository;
+        this.merchService = merchService;
+        this.adminService = adminService;
     }
 
     @RequestMapping("")
     public String displayAllFestivals(Model model) {
         List<Festival> festivals = festivalRepository.findAll();
         model.addAttribute("festivals", festivals);
-        List<Merch> gifts = giftRepository.findAll();
-        model.addAttribute("gifts", gifts);
-        List<Admin> admins = adminRepository.findAll();
+        List<Merch> merch = merchService.findAll();
+        model.addAttribute("merch", merch);
+        List<Admin> admins = adminService.findAll();
         model.addAttribute("admins", admins);
         return "main/main";
     }

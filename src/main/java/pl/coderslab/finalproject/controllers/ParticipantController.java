@@ -10,9 +10,7 @@ import pl.coderslab.finalproject.models.merch.Merch;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.*;
-import pl.coderslab.finalproject.service.FestivalService;
-import pl.coderslab.finalproject.service.ParticipantService;
-import pl.coderslab.finalproject.service.PassService;
+import pl.coderslab.finalproject.service.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -26,20 +24,20 @@ public class ParticipantController {
 
     private final ParticipantService participantService;
     private final FestivalService festivalService;
-    private final MerchRepository giftRepository;
-    private final EventRepository eventRepository;
+    private final MerchService merchService;
+    private final EventService eventService;
     private final PassService passService;
 
 
     public ParticipantController(ParticipantService participantService,
                                  FestivalService festivalService,
-                                 MerchRepository giftRepository,
-                                 EventRepository eventRepository,
+                                 MerchService merchService,
+                                 EventService eventService,
                                  PassService passService) {
         this.participantService = participantService;
         this.festivalService = festivalService;
-        this.giftRepository = giftRepository;
-        this.eventRepository = eventRepository;
+        this.merchService = merchService;
+        this.eventService = eventService;
         this.passService = passService;
     }
 
@@ -56,13 +54,13 @@ public class ParticipantController {
     @GetMapping("{festivalId}/add")
     public String displayAddForm(@PathVariable Long festivalId, Model model) {
         Festival festival = festivalService.findFestival(festivalId);
-        List<Merch> gifts = giftRepository.findAll();
+        List<Merch> merch = merchService.findAll();
         List<Pass> passes = passService.findAllByFestival(festival);
-        if(passes.isEmpty()){
+        if (passes.isEmpty()) {
             return String.format("redirect:/%s/noPass", festivalId);
         }
         model.addAttribute("passes", passes);
-        model.addAttribute("gifts", gifts);
+        model.addAttribute("merch", merch);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("participant", new Participant());
         return "/participant/add";
@@ -109,13 +107,13 @@ public class ParticipantController {
     @GetMapping("{festivalId}/edit/{participantId}")
     public String editParticipant(@PathVariable Long festivalId,
                                   @PathVariable Long participantId, Model model) {
-        List<Merch> gifts = giftRepository.findAll();
+        List<Merch> merch = merchService.findAll();
         List<Pass> passes = passService.findAll();
         Participant participant = participantService.findById(participantId);
         model.addAttribute("participant", participant);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("passes", passes);
-        model.addAttribute("gifts", gifts);
+        model.addAttribute("gifts", merch);
         return "/participant/edit";
     }
 
@@ -213,9 +211,9 @@ public class ParticipantController {
                                                     @PathVariable Long participantId,
                                                     @PathVariable Long eventId, Model model) {
         Participant participant = participantService.findById(participantId);
-        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        Event event = eventService.findById(eventId);
         model.addAttribute("participant", participant);
-        model.addAttribute("event", eventOptional.get());
+        model.addAttribute("event", event);
         model.addAttribute("festivalId", festivalId);
         return "event/deleteParticipantFromEventConfirm";
     }

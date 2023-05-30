@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.finalproject.models.merch.Merch;
 import pl.coderslab.finalproject.repositories.MerchRepository;
 
+import java.util.List;
+
 @Service
 public class MerchService {
 
@@ -29,5 +31,9 @@ public class MerchService {
         Merch merch = findById(id);
         //wywalić go z wszystkich użytkowników, którzy mają dany merch!
         merchRepository.delete(merch);
+    }
+
+    public List<Merch> findAll() {
+        return merchRepository.findAll();
     }
 }

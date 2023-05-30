@@ -9,6 +9,7 @@ import pl.coderslab.finalproject.repositories.RoleRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class AdminService  {
@@ -37,4 +38,7 @@ public void saveUser(Admin admin) {
 }
 
 
+    public List<Admin> findAll() {
+        return adminRepository.findAll();
+    }
 }

@@ -2,6 +2,7 @@ package pl.coderslab.finalproject.service;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.finalproject.models.event.Event;
+import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.repositories.EventRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
@@ -44,4 +45,11 @@ public class EventService {
     }
 
 
+    public List<Event> findAllByFestivalOrderByStart(Festival festival) {
+        return eventRepository.findAllByFestivalOrderByStart(festival);
+    }
+
+    public List<Event> findAll() {
+        return eventRepository.findAll();
+    }
 }
