@@ -75,14 +75,7 @@ public class ParticipantController {
         participant.setRegistrationDate(LocalDateTime.now());
         Festival festival = festivalService.findFestival(festivalId);
         participant.setFestival(festival);
-        BigDecimal price = new BigDecimal("0.00");
-        for (Merch gift : participant.getMerch()) {
-            price = price.add(gift.getPrice());
-        }
-        for (Pass pass : participant.getPasses()) {
-            price = price.add(pass.getPrice());
-        }
-        participant.setAmountToPay(price);
+        participant.setAmountToPay(participant.getAmountToPay());
         participantService.add(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
     }
@@ -113,7 +106,8 @@ public class ParticipantController {
         model.addAttribute("participant", participant);
         model.addAttribute("festivalId", festivalId);
         model.addAttribute("passes", passes);
-        model.addAttribute("gifts", merch);
+
+        model.addAttribute("merch", merch);
         return "/participant/edit";
     }
 
@@ -127,15 +121,7 @@ public class ParticipantController {
         }
         Festival festival = festivalService.findFestival(festivalId);
         participant.setFestival(festival);
-
-        BigDecimal price = new BigDecimal("0.00");
-        for (Merch gift : participant.getMerch()) {
-            price = price.add(gift.getPrice());
-        }
-        for (Pass pass : participant.getPasses()) {
-            price = price.add(pass.getPrice());
-        }
-        participant.setAmountToPay(price);
+        participant.setAmountToPay(participant.calculateAmountToPay());
         participantService.add(participant);
         return String.format("redirect:/festival/details/%s", festivalId);
     }

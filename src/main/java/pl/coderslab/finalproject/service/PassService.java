@@ -45,6 +45,7 @@ public class PassService {
         for(Participant p : participantsWithThisEvent){
            List<Pass> passes =  p.getPasses();
            passes.remove(pass);
+           p.setAmountToPay(p.calculateAmountToPay());
            participantRepository.save(p);
         }
         passRepository.delete(pass);

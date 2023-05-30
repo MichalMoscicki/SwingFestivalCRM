@@ -44,11 +44,11 @@ public class Participant {
     private List<Pass> passes;
     private String comments;
 
-    public List<Event> getEvents(){
+    public List<Event> getEvents() {
         List<Event> events = new ArrayList<>();
-        for(Pass pass : passes){
-            for (Event event: pass.getEvents()) {
-                if (!events.contains(event)){
+        for (Pass pass : passes) {
+            for (Event event : pass.getEvents()) {
+                if (!events.contains(event)) {
                     events.add(event);
                 }
             }
@@ -56,15 +56,18 @@ public class Participant {
         return events;
     }
 
-    //zrobić tutaj tę metodę
 
-    public BigDecimal calculateAmountToPay(){
+    public BigDecimal calculateAmountToPay() {
         BigDecimal price = new BigDecimal("0.00");
-        for (Merch m : merch) {
-            price = price.add(m.getPrice());
+        if (merch != null) {
+            for (Merch m : merch) {
+                price = price.add(m.getPrice());
+            }
         }
-        for (Pass p : passes) {
-            price = price.add(p.getPrice());
+        if (passes != null) {
+            for (Pass p : passes) {
+                price = price.add(p.getPrice());
+            }
         }
 
         return price;
