@@ -30,8 +30,8 @@ Lista passów:<br>
 </c:forEach>
 <br>
 Merch:<br>
-<c:forEach items="${participant.gifts}" var="gift">
-    ${gift.name}:  ${gift.price} zł<br>
+<c:forEach items="${participant.merch}" var="merch">
+    ${merch.name}:  ${merch.price} zł<br>
 </c:forEach>
 <br>
 Kwota do zapłaty w sumie: ${participant.amountToPay}<br>

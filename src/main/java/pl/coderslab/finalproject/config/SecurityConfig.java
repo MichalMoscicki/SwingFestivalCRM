@@ -18,7 +18,7 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/FirtsUser", "/js/**", "/css/**", "register").permitAll()
+                .antMatchers("/", "/firstStart", "/js/**", "/css/**", "register").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").hasAnyRole("USER", "ADMIN")
                 .and().formLogin().loginPage("/login").permitAll().successForwardUrl("/main")

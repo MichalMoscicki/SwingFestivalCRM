@@ -1,10 +1,9 @@
 package pl.coderslab.finalproject.models.person;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.event.Event;
-import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.merch.Merch;
 import pl.coderslab.finalproject.models.pass.Pass;
 
 import javax.persistence.*;
@@ -40,7 +39,7 @@ public class Participant {
     private boolean giftsGiven;
     private boolean braceletGiven;
     @ManyToMany
-    private List<Gift> gifts;
+    private List<Merch> merch;
     @ManyToMany
     private List<Pass> passes;
     private String comments;

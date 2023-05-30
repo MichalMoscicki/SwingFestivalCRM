@@ -50,9 +50,6 @@ Lista uczestników:<br>
 </c:forEach>
 </ol>
 <br>
-Dodaj uczestnika<br>
-<a href="/participant/${festivalId}/details/${participant.id}">[Dodaj uczestnika] OPCJA OPCJONALNA</a>
-<br>
 <a href="/festival/details/${festivalId}">POWRÓT</a><br>
 
 </body>

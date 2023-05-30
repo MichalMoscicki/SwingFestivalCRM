@@ -2,10 +2,10 @@ package pl.coderslab.finalproject.utils.parser;
 
 import org.springframework.stereotype.Component;
 import pl.coderslab.finalproject.models.festival.Festival;
-import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.merch.Merch;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
-import pl.coderslab.finalproject.repositories.GiftRepository;
+import pl.coderslab.finalproject.repositories.MerchRepository;
 import pl.coderslab.finalproject.repositories.PassRepository;
 
 import java.io.File;
@@ -22,11 +22,11 @@ import java.util.Scanner;
 public class Parser {
 
     PassRepository passRepository;
-    GiftRepository giftRepository;
+    MerchRepository merchRepository;
 
-    public Parser(PassRepository passRepository, GiftRepository giftRepository) {
+    public Parser(PassRepository passRepository, MerchRepository merchRepository) {
         this.passRepository = passRepository;
-        this.giftRepository = giftRepository;
+        this.merchRepository = merchRepository;
     }
 
 
@@ -61,7 +61,7 @@ public class Parser {
             Participant participant = Participant.builder().registrationDate(LocalDateTime.parse(line[0], formatter)).
                     email(line[1]).city(line[2]).firstName(line[3]).lastName(line[4]).phone(line[5])
                     .passes(participantPasses(line[6], festival))
-                    .role(line[7]).partnerName(line[8]).role(findRole(line[9], line[10])).gifts(findGifts(line[11], line[12], line[13]))
+                    .role(line[7]).partnerName(line[8]).role(findRole(line[9], line[10])).merch(findGifts(line[11], line[12], line[13]))
                     .build();
             if (line.length == 16) {
                 participant.setComments(line[15]);
@@ -92,11 +92,11 @@ public class Parser {
         }
     }
 
-    private List<Gift> findGifts(String firstField, String secondField, String thirdField) {
+    private List<Merch> findGifts(String firstField, String secondField, String thirdField) {
 
-        List<Gift> participantGifts = new ArrayList<>();
+        List<Merch> participantGifts = new ArrayList<>();
         if (firstField.equals("I want a t-shirt/ Chcę koszulkę")) {
-            List<Gift> gifts = giftRepository.findAll();
+            List<Merch> gifts = merchRepository.findAll();
             String sex;
             if (secondField.toLowerCase().contains("male")) {
                 sex = "male";
@@ -105,7 +105,7 @@ public class Parser {
             }
             String size = thirdField;
             String lookedGiftName = String.format("%s %s", sex, size);
-            for (Gift gift : gifts) {
+            for (Merch gift : gifts) {
                 String giftName = gift.getName().toLowerCase().replace(" ", "");
                 if (giftName.equals(lookedGiftName.toLowerCase().replace(" ", ""))) {
                     participantGifts.add(gift);
@@ -121,8 +121,8 @@ public class Parser {
         for (Pass pass : participant.getPasses()) {
             price = price.add(pass.getPrice());
         }
-        if (!participant.getGifts().isEmpty()) {
-            for (Gift gift : participant.getGifts()) {
+        if (!participant.getMerch().isEmpty()) {
+            for (Merch gift : participant.getMerch()) {
                 price = price.add(gift.getPrice());
             }
         }

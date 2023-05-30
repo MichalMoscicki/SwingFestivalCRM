@@ -14,11 +14,11 @@
 </head>
 <body>
 EDYCJA<br>
-<form:form method="post" modelAttribute="gift">
-    <form:input path="id" value="${gift.id}" hidden="true"/>
-    <form:input path="name" value="${gift.name}"/>Nazwa<br>
-    <form:input path="description" value="${gift.description}"/>Data rozpoczęcia<br>
-    <form:input path="price" value="${gift.price}"/>Data zakończenia<br>
+<form:form method="post" modelAttribute="merch">
+    <form:input path="id" value="${merch.id}" hidden="true"/>
+    <form:input path="name" value="${merch.name}"/>Nazwa<br>
+    <form:input path="description" value="${merch.description}"/>Data rozpoczęcia<br>
+    <form:input path="price" value="${merch.price}"/>Data zakończenia<br>
     <input type="submit"><br>
 </form:form>
 <br>

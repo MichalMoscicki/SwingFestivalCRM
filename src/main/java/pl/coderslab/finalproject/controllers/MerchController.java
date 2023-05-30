@@ -7,67 +7,67 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.finalproject.models.festival.Festival;
-import pl.coderslab.finalproject.models.gift.Gift;
-import pl.coderslab.finalproject.repositories.GiftRepository;
+import pl.coderslab.finalproject.models.merch.Merch;
+import pl.coderslab.finalproject.repositories.MerchRepository;
+import pl.coderslab.finalproject.service.MerchService;
 
 import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/gift")
-public class GiftController {
+@RequestMapping("/merch")
+public class MerchController {
 
-    private final GiftRepository giftRepository;
+    private final MerchService merchService;
 
-    public GiftController(GiftRepository giftRepository) {
-        this.giftRepository = giftRepository;
+    public MerchController(MerchService merchService) {
+        this.merchService = merchService;
     }
 
     @GetMapping("/add")
     public String addGift(Model model) {
-        model.addAttribute("gift", new Gift());
-        return "gift/add";
+        model.addAttribute("merch", new Merch());
+        return "merch/add";
     }
 
     @PostMapping("/add")
-    public String addGift(@Valid Gift gift, BindingResult res) {
+    public String addGift(@Valid Merch merch, BindingResult res) {
         if (res.hasErrors()) {
-            return "gift/add";
+            return "merch/add";
         }
-        giftRepository.save(gift);
+        merchService.add(merch);
         return "redirect:/main";
     }
 
     @GetMapping("/edit/{id}")
     public String editGiftDetails(Model model, @PathVariable Long id) {
-        Optional<Gift> optionalGift = giftRepository.findById(id);
-        optionalGift.ifPresent(gift -> model.addAttribute("gift", gift));
-        return "gift/edit";
+        Merch merch = merchService.findById(id);
+        model.addAttribute("merch", merch);
+        return "merch/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String editFestivalDetails(@Valid Gift gift, BindingResult res) {
+    public String editFestivalDetails(@Valid Merch merch, BindingResult res) {
         if (res.hasErrors()) {
             return "main";
         }
-        giftRepository.save(gift);
+        merchService.add(merch);
         return "redirect:/main";
 
     }
 
     @GetMapping("/deleteConfirm/{id}")
     public String deleteFestivalConfirmation(@PathVariable Long id, Model model) {
-        Optional<Gift> giftOptional = giftRepository.findById(id);
-        giftOptional.ifPresent(gift -> model.addAttribute("gift", gift));
+        Merch merch = merchService.findById(id);
+        model.addAttribute("merch", merch);
 
-        return "/gift/delete";
+        return "/merch/delete";
 
     }
 
     @GetMapping("/delete/{id}")
     public String deleteFestival(@PathVariable Long id) {
-        giftRepository.deleteById(id);
+        merchService.delete(id);
         return "redirect:/main";
     }
 }

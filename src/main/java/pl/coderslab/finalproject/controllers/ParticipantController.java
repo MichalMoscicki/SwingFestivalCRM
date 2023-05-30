@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.festival.Festival;
 import pl.coderslab.finalproject.models.event.Event;
-import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.merch.Merch;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
 import pl.coderslab.finalproject.repositories.*;
@@ -26,14 +26,14 @@ public class ParticipantController {
 
     private final ParticipantService participantService;
     private final FestivalService festivalService;
-    private final GiftRepository giftRepository;
+    private final MerchRepository giftRepository;
     private final EventRepository eventRepository;
     private final PassService passService;
 
 
     public ParticipantController(ParticipantService participantService,
                                  FestivalService festivalService,
-                                 GiftRepository giftRepository,
+                                 MerchRepository giftRepository,
                                  EventRepository eventRepository,
                                  PassService passService) {
         this.participantService = participantService;
@@ -56,7 +56,7 @@ public class ParticipantController {
     @GetMapping("{festivalId}/add")
     public String displayAddForm(@PathVariable Long festivalId, Model model) {
         Festival festival = festivalService.findFestival(festivalId);
-        List<Gift> gifts = giftRepository.findAll();
+        List<Merch> gifts = giftRepository.findAll();
         List<Pass> passes = passService.findAllByFestival(festival);
         if(passes.isEmpty()){
             return String.format("redirect:/%s/noPass", festivalId);
@@ -78,7 +78,7 @@ public class ParticipantController {
         Festival festival = festivalService.findFestival(festivalId);
         participant.setFestival(festival);
         BigDecimal price = new BigDecimal("0.00");
-        for (Gift gift : participant.getGifts()) {
+        for (Merch gift : participant.getMerch()) {
             price = price.add(gift.getPrice());
         }
         for (Pass pass : participant.getPasses()) {
@@ -109,7 +109,7 @@ public class ParticipantController {
     @GetMapping("{festivalId}/edit/{participantId}")
     public String editParticipant(@PathVariable Long festivalId,
                                   @PathVariable Long participantId, Model model) {
-        List<Gift> gifts = giftRepository.findAll();
+        List<Merch> gifts = giftRepository.findAll();
         List<Pass> passes = passService.findAll();
         Participant participant = participantService.findById(participantId);
         model.addAttribute("participant", participant);
@@ -131,7 +131,7 @@ public class ParticipantController {
         participant.setFestival(festival);
 
         BigDecimal price = new BigDecimal("0.00");
-        for (Gift gift : participant.getGifts()) {
+        for (Merch gift : participant.getMerch()) {
             price = price.add(gift.getPrice());
         }
         for (Pass pass : participant.getPasses()) {

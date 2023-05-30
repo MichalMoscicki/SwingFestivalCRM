@@ -12,10 +12,10 @@
     <title>Title</title>
 </head>
 <body>
-${gift.name}____${gift.description}____${gift.price}<br>
+${merch.name}____${merch.description}____${merch.price}<br>
 <br>
 Czy na pewno chcesz usunąć?<br>
-<a href="/gift/delete/${gift.id}">TAK</a>
+<a href="/merch/delete/${merch.id}">TAK</a>
 <a href="/main">POWRÓT</a>
 </body>
 </html>

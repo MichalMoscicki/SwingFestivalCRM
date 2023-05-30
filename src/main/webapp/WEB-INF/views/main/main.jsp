@@ -72,15 +72,15 @@ Merch:<br>
             <td>${gift.description}</td>
             <td>${gift.price}</td>
             <sec:authorize access="hasRole('ADMIN')">
-                <td><a href="gift/edit/${gift.id}">[edytuj]</a></td>
-                <td><a href="gift/deleteConfirm/${gift.id}">[usuń]</a></td>
+                <td><a href="merch/edit/${gift.id}">[edytuj]</a></td>
+                <td><a href="merch/deleteConfirm/${gift.id}">[usuń]</a></td>
             </sec:authorize>
         </tr>
     </c:forEach>
 </table>
 <sec:authorize access="hasRole('ADMIN')">
 ************<br>
-<a href="gift/add">DODAJ MERCH (superAdminOnly)</a><br>
+<a href="merch/add">DODAJ MERCH (superAdminOnly)</a><br>
 *************<br>
 
 Admini:<br>

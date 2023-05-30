@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-<form:form method="post" modelAttribute="gift">
+<form:form method="post" modelAttribute="merch">
     <form:input path="name"/>Nazwa<br>
     <form:input path="description"/>Opis<br>
     <form:input type="number" step="0.01" path="price"/>Cena<br>

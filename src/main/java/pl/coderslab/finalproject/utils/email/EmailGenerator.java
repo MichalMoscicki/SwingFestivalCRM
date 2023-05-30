@@ -2,7 +2,7 @@ package pl.coderslab.finalproject.utils.email;
 
 import org.springframework.stereotype.Component;
 import pl.coderslab.finalproject.models.event.Event;
-import pl.coderslab.finalproject.models.gift.Gift;
+import pl.coderslab.finalproject.models.merch.Merch;
 import pl.coderslab.finalproject.models.pass.Pass;
 import pl.coderslab.finalproject.models.person.Participant;
 
@@ -16,7 +16,7 @@ public class EmailGenerator {
         for (Pass pass : participant.getPasses()) {
             headerBuilder.append(String.format("-%s\n", pass.getName()));
         }
-        for (Gift gift : participant.getGifts()) {
+        for (Merch gift : participant.getMerch()) {
             headerBuilder.append(String.format("- Tshirt: %s\n", gift.getName()));
         }
         String passesAndGifts = headerBuilder.toString();

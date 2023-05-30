@@ -1,4 +1,4 @@
-package pl.coderslab.finalproject.models.gift;
+package pl.coderslab.finalproject.models.merch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Gift {
+public class Merch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
