@@ -56,5 +56,19 @@ public class Participant {
         return events;
     }
 
+    //zrobić tutaj tę metodę
+
+    public BigDecimal calculateAmountToPay(){
+        BigDecimal price = new BigDecimal("0.00");
+        for (Merch m : merch) {
+            price = price.add(m.getPrice());
+        }
+        for (Pass p : passes) {
+            price = price.add(p.getPrice());
+        }
+
+        return price;
+    }
+
 
 }
