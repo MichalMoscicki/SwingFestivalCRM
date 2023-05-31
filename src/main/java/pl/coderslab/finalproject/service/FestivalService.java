@@ -60,4 +60,8 @@ public class FestivalService {
     }
 
 
+    public Festival findRecenltyAddedFestival() {
+
+        return festivalRepository.findRecentlyAddedFestival();
+    }
 }

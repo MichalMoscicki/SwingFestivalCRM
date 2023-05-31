@@ -6,4 +6,8 @@ import pl.coderslab.finalproject.models.festival.Festival;
 
 public interface FestivalRepository extends JpaRepository<Festival, Long> {
 
+    @Query(
+            value = "select * from festival order by adding_date desc limit 1",
+            nativeQuery = true)
+    Festival findRecentlyAddedFestival();
 }

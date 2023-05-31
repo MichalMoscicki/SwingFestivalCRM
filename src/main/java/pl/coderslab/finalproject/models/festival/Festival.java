@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -34,5 +35,7 @@ public class Festival {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Data końcowa musi być w przyszłości")
     private LocalDate endDate;
+
+    private LocalDateTime addingDate = LocalDateTime.now();
 
 }
