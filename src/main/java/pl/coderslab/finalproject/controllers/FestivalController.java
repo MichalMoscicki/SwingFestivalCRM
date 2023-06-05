@@ -51,7 +51,7 @@ public class FestivalController {
             return "festival/add";
         }
         festivalService.addFestival(festival);
-        return "redirect:/main";
+        return "redirect:/festival/all";
     }
 
     @GetMapping("/details/{id}")
@@ -79,7 +79,7 @@ public class FestivalController {
             return "festival/edit";
         }
         festivalService.addFestival(festival);
-        return "redirect:/main";
+        return "redirect:/festival/all";
     }
 
     @GetMapping("/deleteConfirm/{id}")
@@ -92,6 +92,6 @@ public class FestivalController {
     @GetMapping("/delete/{id}")
     public String deleteFestival(@PathVariable Long id) {
         festivalService.deleteFestival(id);
-        return "redirect:/main";
+        return "redirect:/festival/all";
     }
 }

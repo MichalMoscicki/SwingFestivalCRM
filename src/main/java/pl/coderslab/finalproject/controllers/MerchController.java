@@ -25,7 +25,7 @@ public class MerchController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public String displayAll(Model model){
         List<Merch> merchList = merchService.findAll();
         model.addAttribute("merch", merchList);
@@ -46,7 +46,7 @@ public class MerchController {
             return "merch/add";
         }
         merchService.add(merch);
-        return "redirect:/main";
+        return "redirect:/merch";
     }
 
     @GetMapping("/edit/{id}")
@@ -62,7 +62,7 @@ public class MerchController {
             return "main";
         }
         merchService.add(merch);
-        return "redirect:/main";
+        return "redirect:/merch";
 
     }
 
@@ -78,7 +78,7 @@ public class MerchController {
     @GetMapping("/delete/{id}")
     public String deleteMerch(@PathVariable Long id) {
         merchService.delete(id);
-        return "redirect:/main";
+        return "redirect:/merch";
     }
 }
 

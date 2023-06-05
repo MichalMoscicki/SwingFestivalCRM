@@ -18,7 +18,7 @@
 </head>
 <body>
 <header>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark mb-5">
         <div class="container-fluid">
             <a href="<c:url value='/main'/>" class="navbar-brand">SwingApp</a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -29,6 +29,7 @@
                     <a href="<c:url value='/festival/all'/>" class="nav-item nav-link active">Festiwale</a>
                     <a href="<c:url value='/merch'/>" class="nav-item nav-link">Merch</a>
                     <a href="<c:url value='/admins'/>" class="nav-item nav-link">Admini</a>
+                    <a href="<c:url value='/mailin'/>" class="nav-item nav-link">Mailing</a>
                     <a href="<c:url value='/instruction'/>" class="nav-item nav-link">Instrukcja</a>
                 </div>
                 <div class="navbar-nav ms-auto">
