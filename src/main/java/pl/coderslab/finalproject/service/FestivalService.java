@@ -64,4 +64,8 @@ public class FestivalService {
 
         return festivalRepository.findRecentlyAddedFestival();
     }
+
+    public List<Festival> findAll() {
+        return festivalRepository.findAllSorted();
+    }
 }

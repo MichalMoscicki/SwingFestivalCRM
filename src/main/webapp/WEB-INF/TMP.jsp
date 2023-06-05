@@ -6,33 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-Festiwale:<br>
-<br>
-<table>
-    <tr>
-        <th></th>
-        <th>Nazwa</th>
-        <th>Początek</th>
-        <th>Koniec</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <c:set var="count" value="0" scope="page"/>
-    <c:forEach items="${festivals}" var="festival">
-        <c:set var="count" value="${count + 1}" scope="page"/>
-        <tr>
-            <td>${count}.</td>
-            <td>${festival.name}</td>
-            <td>${festival.startDate}</td>
-            <td>${festival.endDate}</td>
-            <td><a href="festival/details/${festival.id}">[szczegóły]</a></td>
-            <sec:authorize access="hasRole('ADMIN')">
-                <td><a href="festival/edit/${festival.id}">[edytuj]</a></td>
-                <td><a href="festival/deleteConfirm/${festival.id}">[usuń]</a></td>
-            </sec:authorize>
-        </tr>
-    </c:forEach>
-</table>
+
 <br>
 <sec:authorize access="hasRole('ADMIN')">
     <div>

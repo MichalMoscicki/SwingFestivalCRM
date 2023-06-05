@@ -20,13 +20,13 @@
 <header>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a href="#" class="navbar-brand">SwingApp</a>
+            <a href="<c:url value='/main'/>" class="navbar-brand">SwingApp</a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
-                    <a href="<c:url value='/allFestivals'/>" class="nav-item nav-link active">Festiwale</a>
+                    <a href="<c:url value='/festival/all'/>" class="nav-item nav-link active">Festiwale</a>
                     <a href="<c:url value='/merch'/>" class="nav-item nav-link">Merch</a>
                     <a href="<c:url value='/admins'/>" class="nav-item nav-link">Admini</a>
                     <a href="<c:url value='/instruction'/>" class="nav-item nav-link">Instrukcja</a>

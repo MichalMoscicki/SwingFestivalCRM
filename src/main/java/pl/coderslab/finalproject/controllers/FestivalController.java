@@ -32,6 +32,13 @@ public class FestivalController {
         this.passService = passService;
     }
 
+    @GetMapping("/all")
+    public String displayAllFestivals(Model model){
+        List<Festival> festivals = festivalService.findAll();
+        model.addAttribute("festivals", festivals);
+        return "festivalAll";
+    }
+
     @GetMapping("/add")
     public String addFestival(Model model) {
         model.addAttribute("festival", new Festival());

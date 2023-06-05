@@ -10,12 +10,21 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="header.jsp"/>
 <div class="container">
-    <div class="d-flex align-items-md-center justify-content-center" style="height: 250px;">
-        <div class="container bg-light border py-3 my-3">
+    <div class="d-flex align-items-center justify-content-center" style="height: 250px;">
+        <div class="container bg-light border mt-5">
             <c:if test="${empty recentlyAddedFestival}">
                 <div class="row justify-content-md-center py-3 my-3">
                     <div class="col-md-auto">
                         <h1> Nie dodano jeszcze żadnego festiwalu</h1>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center py-3 my-3">
+                    <div class="col-md-auto">
+                        <a href="<c:url value='/festival/add'/>">
+                            <button type="button" class="btn btn-secondary">
+                                <h5>Dodaj festiwal</h5>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </c:if>
@@ -26,7 +35,7 @@
                         <h1> ${recentlyAddedFestival.name}</h1>
                     </div>
                 </div>
-                <div class="row justify-content-evenly">
+                <div class="row justify-content-evenly h-50 align-content-center">
                     <div class="col-md-auto">
                         <a href="<c:url value='/festival/${recentlyAddedFestival.id}/participants'/>">
                             <button type="button" class="btn btn-secondary">

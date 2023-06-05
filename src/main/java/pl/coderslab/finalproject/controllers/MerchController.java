@@ -12,6 +12,7 @@ import pl.coderslab.finalproject.repositories.MerchRepository;
 import pl.coderslab.finalproject.service.MerchService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -19,10 +20,19 @@ import java.util.Optional;
 public class MerchController {
 
     private final MerchService merchService;
-
     public MerchController(MerchService merchService) {
         this.merchService = merchService;
     }
+
+
+    @GetMapping("/")
+    public String displayAll(Model model){
+        List<Merch> merchList = merchService.findAll();
+        model.addAttribute("merch", merchList);
+        return "merchAll";
+
+    }
+
 
     @GetMapping("/add")
     public String addMerch(Model model) {
