@@ -30,7 +30,7 @@ public Admin findByEmail(String email) {
     return adminRepository.findByEmail(email);
 }
 
-public void saveUser(Admin admin) {
+public void save(Admin admin) {
     admin.setPassword(passwordEncoder.encode(admin.getPassword()));
     Role adminRole = roleRepository.findByName("ROLE_ADMIN");
     admin.setRoles(new HashSet<>(Arrays.asList(adminRole)));
@@ -40,5 +40,14 @@ public void saveUser(Admin admin) {
 
     public List<Admin> findAll() {
         return adminRepository.findAll();
+    }
+
+    public Admin findById(Long adminId) {
+        return adminRepository.findById(adminId).get();
+    }
+
+    public void deleteById(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).get();
+        adminRepository.delete(admin);
     }
 }

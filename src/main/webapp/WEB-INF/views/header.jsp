@@ -28,7 +28,7 @@
                 <div class="navbar-nav">
                     <a href="<c:url value='/festival/all'/>" class="nav-item nav-link active">Festiwale</a>
                     <a href="<c:url value='/merch'/>" class="nav-item nav-link">Merch</a>
-                    <a href="<c:url value='/admins'/>" class="nav-item nav-link">Admini</a>
+                    <a href="<c:url value='/admin'/>" class="nav-item nav-link">Admini</a>
                     <a href="<c:url value='/mailin'/>" class="nav-item nav-link">Mailing</a>
                     <a href="<c:url value='/instruction'/>" class="nav-item nav-link">Instrukcja</a>
                 </div>

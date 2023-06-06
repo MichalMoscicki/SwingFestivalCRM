@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.finalproject.models.person.Admin;
-import pl.coderslab.finalproject.repositories.AdminRepository;
+import pl.coderslab.finalproject.service.AdminService;
 
 
 import javax.validation.Valid;
@@ -18,68 +18,63 @@ import java.util.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final AdminRepository adminRepository;
-   // private final RoleRepository roleRepository;
+    private final AdminService adminService;
 
-    public AdminController(AdminRepository adminRepository
-                           //,RoleRepository roleRepository
-                           ) {
-        this.adminRepository = adminRepository;
-       // this.roleRepository = roleRepository;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
+    @GetMapping("")
+    public String displayAll(Model model) {
+        List<Admin> admins = adminService.findAll();
+        model.addAttribute("admins", admins);
+        return "adminAll";
     }
 
     @GetMapping("add")
-    public String addAdmin(Model model){
+    public String addAdmin(Model model) {
         model.addAttribute("admin", new Admin());
         return "admin/add";
     }
 
     @PostMapping("add")
-    public String addAdmin(@Valid Admin admin, BindingResult result){
-        if (result.hasErrors()){
+    public String addAdmin(@Valid Admin admin, BindingResult result) {
+        if (result.hasErrors()) {
             return "admin/add";
         }
-
-//        Optional<Role> role = roleRepository.findByName("admin");
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role.get());
-//        admin.setRoles(roles);
-
-
-        adminRepository.save(admin);
-        return "redirect:/main";
+        adminService.save(admin);
+        return "redirect:/admin";
     }
 
     @GetMapping("/deleteConfirm/{adminId}")
-    public String deleteConfirm(@PathVariable Long adminId, Model model){
-        Optional<Admin> adminOptional = adminRepository.findById(adminId);
-        model.addAttribute("admin", adminOptional.get());
+    public String deleteConfirm(@PathVariable Long adminId, Model model) {
+        Admin admin = adminService.findById(adminId);
+        model.addAttribute("admin", admin);
         return "admin/delete";
 
     }
 
     @GetMapping("/delete/{adminId}")
-    public String delete(@PathVariable Long adminId){
-        Optional<Admin> adminOptional = adminRepository.findById(adminId);
-        adminRepository.delete(adminOptional.get());
-        return "redirect:/main";
+    public String delete(@PathVariable Long adminId) {
+        adminService.deleteById(adminId);
+        return "redirect:/admin";
 
     }
 
     @GetMapping("edit/{adminId}")
-    public String editAdmin(@PathVariable Long adminId, Model model){
-        Optional<Admin> adminOptional = adminRepository.findById(adminId);
-        model.addAttribute("admin", adminOptional.get());
+    public String editAdmin(@PathVariable Long adminId, Model model) {
+        Admin admin = adminService.findById(adminId);
+        model.addAttribute("admin", admin);
         return "admin/edit";
     }
 
     @PostMapping("edit/{adminId}")
-    public String editAdmin(@Valid Admin admin, BindingResult result){
-        if (result.hasErrors()){
+    public String editAdmin(@Valid Admin admin, BindingResult result) {
+        if (result.hasErrors()) {
             return "admin/add";
         }
-        adminRepository.save(admin);
-        return "redirect:/main";
+        adminService.save(admin);
+        return "redirect:/admin";
     }
 
 }
