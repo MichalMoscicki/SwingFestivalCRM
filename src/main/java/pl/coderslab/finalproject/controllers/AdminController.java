@@ -3,10 +3,7 @@ package pl.coderslab.finalproject.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.person.Admin;
 import pl.coderslab.finalproject.service.AdminService;
 
@@ -50,13 +47,17 @@ public class AdminController {
     public String deleteConfirm(@PathVariable Long adminId, Model model) {
         Admin admin = adminService.findById(adminId);
         model.addAttribute("admin", admin);
-        return "admin/delete";
+        return "adminDeleteConfirm";
 
     }
 
     @GetMapping("/delete/{adminId}")
     public String delete(@PathVariable Long adminId) {
-        adminService.deleteById(adminId);
+        boolean isDeleteSuccessful = adminService.deleteById(adminId);
+        if(!isDeleteSuccessful){
+            return "redirect:/admin/cannotDeleteLastAdmin";
+        }
+
         return "redirect:/admin";
 
     }
@@ -75,6 +76,12 @@ public class AdminController {
         }
         adminService.save(admin);
         return "redirect:/admin";
+    }
+
+
+    @GetMapping("/cannotDeleteLastAdmin")
+    public String cannotDeleteLastAdmin(){
+        return "/adminLast";
     }
 
 }

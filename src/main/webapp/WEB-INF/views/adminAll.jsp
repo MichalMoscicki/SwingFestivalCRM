@@ -65,13 +65,13 @@
                             </a></td>
 
                             <sec:authorize access="hasRole('ADMIN')">
-                                <td class="text-center align-middle"><a href="<c:url value='/admin/edit/${festival.id}'/>">
+                                <td class="text-center align-middle"><a href="<c:url value='/admin/edit/${a.id}'/>">
                                     <button type="button" class="btn btn-outline-secondary btn-sm">
                                         Zmień hasło
                                     </button>
                                 </a>
                                 </td>
-                                <td class="text-center align-middle"><a href="<c:url value='/admin/deleteConfirm/${festival.id}'/>">
+                                <td class="text-center align-middle"><a href="<c:url value='/admin/deleteConfirm/${a.id}'/>">
                                     <button type="button" class="btn btn-outline-secondary btn-sm">
                                         Usuń
                                     </button>

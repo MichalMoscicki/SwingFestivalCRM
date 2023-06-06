@@ -10,6 +10,7 @@ import pl.coderslab.finalproject.repositories.RoleRepository;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AdminService  {
@@ -46,8 +47,20 @@ public void save(Admin admin) {
         return adminRepository.findById(adminId).get();
     }
 
-    public void deleteById(Long adminId) {
+    public boolean deleteById(Long adminId) {
+        if(numberOfAdmins() == 1){
+            return false;
+        }
         Admin admin = adminRepository.findById(adminId).get();
+        Set<Role> adminRoles = admin.getRoles();
+        adminRoles.clear();
+        admin.setRoles(adminRoles);
+        adminRepository.save(admin);
         adminRepository.delete(admin);
+        return true;
+    }
+
+    public int numberOfAdmins(){
+        return adminRepository.findAll().size();
     }
 }
