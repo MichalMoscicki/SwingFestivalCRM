@@ -58,14 +58,14 @@
                             <td class="text-center align-middle">${a.email}</td>
                             <td class="text-center align-middle"></td>
                             <td class="text-center align-middle">
-                                <a href="<c:url value='/festival/details/${a.id}'/>">
+                                <a href="<c:url value='/admin/edit/${a.id}'/>">
                                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                                    Uprawnienia
+                                    Edytuj
                                 </button>
                             </a></td>
 
                             <sec:authorize access="hasRole('ADMIN')">
-                                <td class="text-center align-middle"><a href="<c:url value='/admin/edit/${a.id}'/>">
+                                <td class="text-center align-middle"><a href="<c:url value='/admin/changePassword/${a.id}'/>">
                                     <button type="button" class="btn btn-outline-secondary btn-sm">
                                         Zmień hasło
                                     </button>

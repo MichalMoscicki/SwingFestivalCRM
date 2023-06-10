@@ -5,7 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.models.person.Admin;
+import pl.coderslab.finalproject.models.role.Role;
 import pl.coderslab.finalproject.service.AdminService;
+import pl.coderslab.finalproject.service.RoleService;
 
 
 import javax.validation.Valid;
@@ -16,9 +18,11 @@ import java.util.*;
 public class AdminController {
 
     private final AdminService adminService;
+    private final RoleService roleService;
 
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, RoleService roleService) {
         this.adminService = adminService;
+        this.roleService = roleService;
     }
 
     @GetMapping("")
@@ -57,24 +61,25 @@ public class AdminController {
         if(!isDeleteSuccessful){
             return "redirect:/admin/cannotDeleteLastAdmin";
         }
-
         return "redirect:/admin";
-
     }
 
     @GetMapping("edit/{adminId}")
     public String editAdmin(@PathVariable Long adminId, Model model) {
         Admin admin = adminService.findById(adminId);
+        List<Role> roles = roleService.findAll();
+        model.addAttribute("roles", roles);
         model.addAttribute("admin", admin);
-        return "admin/edit";
+
+        return "adminEdit";
     }
 
     @PostMapping("edit/{adminId}")
-    public String editAdmin(@Valid Admin admin, BindingResult result) {
+    public String editAdmin(@Valid Admin admin, BindingResult result, @PathVariable Long adminId) {
         if (result.hasErrors()) {
-            return "admin/add";
+            return "adminEdit";
         }
-        adminService.save(admin);
+        adminService.update(admin, adminId);
         return "redirect:/admin";
     }
 
@@ -84,4 +89,23 @@ public class AdminController {
         return "/adminLast";
     }
 
+
+    @GetMapping("/changePassword/{adminId}")
+    public String changePassword(Model model, @PathVariable Long adminId){
+        model.addAttribute(adminService.findById(adminId));
+        return "adminChangePassword";
+    }
+
+
+    @PostMapping("/changePassword/{adminId}")
+    public String changePassword(@PathVariable Long adminId,
+                                 @RequestParam String password1,
+                                 @RequestParam String password2){
+        if(password1.equals(password2)){
+            adminService.changePassword(adminId, password1);
+        } else {
+            return "adminChangePassword";
+        }
+        return "redirect:/admin";
+    }
 }

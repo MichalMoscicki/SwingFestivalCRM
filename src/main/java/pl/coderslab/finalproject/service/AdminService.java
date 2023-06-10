@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class AdminService  {
+public class AdminService {
 
     private final AdminRepository adminRepository;
     private final RoleRepository roleRepository;
@@ -26,17 +26,16 @@ public class AdminService  {
     }
 
 
+    public Admin findByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
 
-public Admin findByEmail(String email) {
-    return adminRepository.findByEmail(email);
-}
-
-public void save(Admin admin) {
-    admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-    Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-    admin.setRoles(new HashSet<>(Arrays.asList(adminRole)));
-    adminRepository.save(admin);
-}
+    public void save(Admin admin) {
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        Role adminRole = roleRepository.findByName("ROLE_USER");
+        admin.setRoles(new HashSet<>(Arrays.asList(adminRole)));
+        adminRepository.save(admin);
+    }
 
 
     public List<Admin> findAll() {
@@ -48,7 +47,7 @@ public void save(Admin admin) {
     }
 
     public boolean deleteById(Long adminId) {
-        if(numberOfAdmins() == 1){
+        if (numberOfAdmins() == 1) {
             return false;
         }
         Admin admin = adminRepository.findById(adminId).get();
@@ -60,7 +59,32 @@ public void save(Admin admin) {
         return true;
     }
 
-    public int numberOfAdmins(){
+    public int numberOfAdmins() {
         return adminRepository.findAll().size();
     }
+
+    public void changePassword(Long id, String password) {
+        Admin admin = adminRepository.findById(id).get();
+        admin.setPassword(passwordEncoder.encode(password));
+        adminRepository.save(admin);
+    }
+
+    public void update(Admin admin, Long id) {
+
+        Admin currentAdmin = adminRepository.findById(id).get();
+        admin.setPassword(currentAdmin.getPassword());
+        admin.setId(id);
+        checkIfLastAdminHasRoleAdmin(admin);
+        adminRepository.save(admin);
+    }
+
+    private void checkIfLastAdminHasRoleAdmin(Admin admin){
+        List<Admin> admins = adminRepository.findAll();
+        if(admins.size() == 1){
+            Set<Role> adminRoles = admin.getRoles();
+            adminRoles.add(roleRepository.findByName("ROLE_ADMIN"));
+        }
+    }
+
+
 }
